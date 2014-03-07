@@ -45,4 +45,9 @@ def station_info (station_id):
 	# has probably changed in ways we can't deal with.
 	assert (response.getheader('Content-Type') == 'application/json; charset=utf-8')
 
-	return json.loads (response.read().decode('utf-8'))
+	station = json.loads (response.read().decode('utf-8'))
+
+	if (not station['ok']):
+		raise RuntimeError(station['error'])
+	else:
+		return station
