@@ -1,0 +1,17 @@
+$ ./iheart-mplayer.py -h
+usage: iheart-mplayer.py [-h] [-v] stream_id
+
+Play an iheartradio station in MPlayer
+
+positional arguments:
+  stream_id      The (five-digit?) ID number of the station
+
+optional arguments:
+  -h, --help     show this help message and exit
+  -v, --verbose  Display extra information
+
+Station IDs are unfortunately fairly clunky to obtain. You can get it from the
+URL you'll get if you find a station on the website, for instance the ID for
+this URL is 5631:
+
+http://www.iheart.com/live/News-Talk-760-5361/
