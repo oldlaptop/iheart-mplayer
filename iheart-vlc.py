@@ -4,20 +4,18 @@ import parse_iheart_json
 import driver_common
 import subprocess
 
-def launch_mplayer (url):
-	# Make sure we actually have mplayer
+def launch_vlc (url):
+	# Make sure we actually have vlc
 	try:
-		subprocess.check_call (['which', 'mplayer'], shell=False)
+		subprocess.check_call (['which', 'vlc'], shell=False)
 	except subprocess.CalledProcessError:
-		raise RuntimeError ('MPlayer could not be found.')
+		raise RuntimeError ('VLC could not be found.')
 
-	# Now we run mplayer. Pass it '-novideo', since we're playing radio
-	# streams which are obviously audio-only - otherwise some versions of
-	# mplayer will spend minutes looking for a nonexistent video stream.
-	subprocess.call (['mplayer', url, '-novideo'], shell=False)
+	# Now we run vlc.
+	subprocess.call (['vlc', url], shell=False)
 
 if __name__ == '__main__':
-	parser = driver_common.build_parser ('Play an iheartradio station in MPlayer')
+	parser = driver_common.build_parser ('Play an iheartradio station in VLC')
 	args = parser.parse_args ()
 
 	station = parse_iheart_json.station_info (args.stream_id[0])
@@ -38,6 +36,5 @@ if __name__ == '__main__':
 		if (args.verbose is not None and args.verbose >= 2):
 			print ("full dictionary dump:")
 			print (station)
-		exit ()
 
-	launch_mplayer (station_url)
+	launch_vlc (station_url)
