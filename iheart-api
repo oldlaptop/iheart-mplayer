@@ -1,0 +1,58 @@
+Collected documentation on what I've learned about iHeartRadio's API. Most (all)
+of this is copied from comments in the source code, referenced by file.
+
+<parse_iheart_json.py>
+
+# The iheartradio API is not publicly documented, to my knowledge. At the time
+# of writing, one can submit a POST request with a content of '1' to a URL of
+# the following form (where STATION_ID_NUMBER is a five-digit number):
+#
+# http://iheart.com/a/live/station/STATION_ID_NUMBER/stream/
+#
+# The response will be UTF-8 encoded JSON describing some vital information
+# about the station (if it exists), such as name, market, genre, and links to
+# various live streams of its content (often RTMP or HTTP, but usually (never?)
+# both). Valid station ID numbers can currently be obtained by searching for
+# stations on the http://iheart.com website - for example, in the following
+# URL, the station ID number is 1165:
+#
+# http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
+
+<driver_common.py> (note that the 'station dictionary' is generated directly
+                   (from iheart's JSON by the standard json module)
+
+# There are two keys within the station dictionary which contain dicts
+# of stream URLs. The first is 'stream_urls', which seems to always have
+# at least two members - 'rtmp' (which is an RTMP URL which VLC and some
+# mplayer versions don't seem to understand) and 'http' (which is an
+# HTTP URL which neither mplayer or vlc seem to understand in any case I
+# have tested). Quite often, at least one of these will be None (but
+# both are always present for a valid station). For our purposes we will
+# ignore this member. The second is 'streams', which *only* contains
+# members for those streams which actually exist (there will never be a
+# None in this dict). Keys which have been observed:
+#
+# shoutcast_stream: Seems to always be a standard shoutcast stream URL.
+#                   Widely understood and works in both VLC and mplayer,
+#                   as far as I've tested.
+#
+# secure_rtmp_stream: An RTMP URL, not always the same as the RTMP URL
+#                     in stream_urls. In cases I've seen it's more
+#                     likely to work than the RTMP URL in stream_urls,
+#                     but some mplayers still don't like it (VLC seems
+#                     fine).
+#
+# stw_stream: Some kind of special HTTP-based stream, which neither
+#             mplayer or VLC understand. Seems related to the (former?)
+#             StreamTheWorld Flash-based platform, always(?) seems to
+#             occur together with pls_stream.
+#
+# pls_stream: Contains a link to a PLS file (INI-based playlist). Occurs
+#             alongside stw_stream. Seems to contain a large number of
+#             HTTP links, none of which are the same as stw_stream.
+#             Seems to work in VLC, but not any mplayer I have tested.
+#
+# Stations tend to have either both of the first two, OR both of the
+# second two. There may be others I have not encountered - dictionary
+# dumps (use -vv) of stations with other stream types would be greatly
+# appreciated.
