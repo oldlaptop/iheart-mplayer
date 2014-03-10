@@ -13,7 +13,7 @@ def build_parser (driver_desc):
 		)
 	parser.add_argument (
 		'-t', '--stream_type',
-		default='shout',
+		default='auto',
 		help='The type of stream to prefer, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.',
 		)
 	parser.add_argument (
