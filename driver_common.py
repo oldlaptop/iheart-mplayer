@@ -12,6 +12,11 @@ def build_parser (driver_desc):
 		help='The (five-digit?) ID number of the station',
 		)
 	parser.add_argument (
+		'-o', '--player_options',
+		nargs='*',
+		help='Command-line arguments to pass the media player.',
+		)
+	parser.add_argument (
 		'-t', '--stream_type',
 		default='auto',
 		help='The type of stream to prefer, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.',
@@ -21,7 +26,6 @@ def build_parser (driver_desc):
 		action='count',
 		help='Display extra information',
 		)
-
 	return parser
 
 def print_station_info (station):

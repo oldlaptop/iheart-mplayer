@@ -4,7 +4,7 @@ import parse_iheart_json
 import driver_common
 import subprocess
 
-def launch_vlc (url):
+def launch_vlc (url, vlc_args):
 	# Make sure we actually have vlc
 	try:
 		subprocess.check_call (['which', 'vlc'], shell=False)
@@ -12,7 +12,7 @@ def launch_vlc (url):
 		raise RuntimeError ('VLC could not be found.')
 
 	# Now we run vlc.
-	subprocess.call (['vlc', url], shell=False)
+	subprocess.call (['vlc', url] + vlc_args, shell=False)
 
 if __name__ == '__main__':
 	parser = driver_common.build_parser ('Play an iheartradio station in VLC')
@@ -37,4 +37,4 @@ if __name__ == '__main__':
 			print ("full dictionary dump:")
 			print (station)
 
-	launch_vlc (station_url)
+		launch_vlc (station_url, [])

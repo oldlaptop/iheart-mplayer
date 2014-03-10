@@ -4,7 +4,7 @@ import parse_iheart_json
 import driver_common
 import subprocess
 
-def launch_mplayer (url):
+def launch_mplayer (url, mplayer_args):
 	# Make sure we actually have mplayer
 	try:
 		subprocess.check_call (['which', 'mplayer'], shell=False)
@@ -40,4 +40,4 @@ if __name__ == '__main__':
 			print (station)
 		exit ()
 
-	launch_mplayer (station_url)
+	launch_mplayer (station_url, [])
