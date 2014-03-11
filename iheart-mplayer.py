@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	parser.add_argument (
 		'-o', '--player_options',
 		nargs='*',
-		help="Command-line arguments to pass the media player",
+		help="Command-line arguments to pass the media player (UNIMPLEMETED)",
 		)
 	parser.add_argument (
 		'-t', '--stream_type',
