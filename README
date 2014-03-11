@@ -1,14 +1,26 @@
 $ ./iheart-mplayer.py -h
-usage: iheart-mplayer.py [-h] [-v] stream_id
+usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}]
+                         [-o [PLAYER_OPTIONS [PLAYER_OPTIONS ...]]]
+                         [-t STREAM_TYPE] [-v]
+                         stream_id
 
-Play an iheartradio station in MPlayer
+Play an iHeartRadio station in mplayer or VLC
 
 positional arguments:
-  stream_id      The (five-digit?) ID number of the station
+  stream_id             The (five-digit?) ID number of the station
 
 optional arguments:
-  -h, --help     show this help message and exit
-  -v, --verbose  Display extra information
+  -h, --help            show this help message and exit
+  -p {mplayer,vlc}, --player {mplayer,vlc}
+                        The player to use (currently either mplayer or vlc),
+                        the default is mplayer
+  -o [PLAYER_OPTIONS [PLAYER_OPTIONS ...]], --player_options [PLAYER_OPTIONS [PLAYER_OPTIONS ...]]
+                        Command-line arguments to pass the media player
+                        (UNIMPLEMETED)
+  -t STREAM_TYPE, --stream_type STREAM_TYPE
+                        The type of stream to use, currently either auto or
+                        one of shout, rtmp, stw, or pls. The default is auto.
+  -v, --verbose         Display extra information
 
 Station IDs are unfortunately fairly clunky to obtain. You can get it from the
 URL you'll get if you find a station on the website, for instance the ID for
