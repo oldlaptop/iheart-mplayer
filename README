@@ -1,6 +1,5 @@
 $ ./iheart-mplayer.py -h
-usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}]
-                         [-o [PLAYER_OPTIONS [PLAYER_OPTIONS ...]]]
+usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS]
                          [-t STREAM_TYPE] [-v]
                          stream_id
 
@@ -14,10 +13,11 @@ optional arguments:
   -p {mplayer,vlc}, --player {mplayer,vlc}
                         The player to use (currently either mplayer or vlc),
                         the default is mplayer
-  -o [PLAYER_OPTIONS [PLAYER_OPTIONS ...]], --player_options [PLAYER_OPTIONS [PLAYER_OPTIONS ...]]
-                        Command-line arguments to pass the media player
-                        (UNIMPLEMETED)
-  -t STREAM_TYPE, --stream_type STREAM_TYPE
+  -o PLAYER_OPTIONS, --player-options PLAYER_OPTIONS
+                        Command-line arguments to pass the media player,
+                        should be a quoted string beginning with a space. Yes,
+                        this is ugly, blame argparse.
+  -t STREAM_TYPE, --stream-type STREAM_TYPE
                         The type of stream to use, currently either auto or
                         one of shout, rtmp, stw, or pls. The default is auto.
   -v, --verbose         Display extra information

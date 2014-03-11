@@ -42,7 +42,7 @@ if __name__ == '__main__':
 		)
 	parser.add_argument (
 		'-o', '--player-options',
-		nargs="*",
+		nargs=1,
 		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
 		)
 	parser.add_argument (
