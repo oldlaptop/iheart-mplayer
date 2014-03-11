@@ -12,18 +12,20 @@ def station_info (station_id):
 	is currently available.
 	'''
 
-	# The iheartradio API is not publicly documented, to my knowledge. At the time
-	# of writing, one can submit a POST request with a content of '1' to a URL of
-	# the following form (where STATION_ID_NUMBER is a five-digit number):
+	# The iheartradio API is not publicly documented, to my knowledge. At 
+	# the time of writing, one can submit a POST request with a content of
+	# '1' to a URL of the following form (where STATION_ID_NUMBER is a five-
+	# digit number):
 	#
 	# http://iheart.com/a/live/station/STATION_ID_NUMBER/stream/
 	#
-	# The response will be UTF-8 encoded JSON describing some vital information
-	# about the station (if it exists), such as name, market, genre, and links to
-	# various live streams of its content (often RTMP or HTTP, but usually (never?)
-	# both). Valid station ID numbers can currently be obtained by searching for
-	# stations on the http://iheart.com website - for example, in the following
-	# URL, the station ID number is 1165:
+	# The response will be UTF-8 encoded JSON describing some vital
+	# information about the station (if it exists), such as name, market,
+	# genre, and links to various live streams of its content (often RTMP or
+	# HTTP, but usually (never?) both). Valid station ID numbers can
+	# currently be obtained by searching for stations on the
+	# http://www.iheart.com website - for example, in the following URL, the
+	# station ID number is 1165:
 	#
 	# http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
 
