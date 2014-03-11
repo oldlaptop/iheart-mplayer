@@ -14,7 +14,7 @@ def launch_mplayer (url, mplayer_args):
 	# Now we run mplayer. Pass it '-novideo', since we're playing radio
 	# streams which are obviously audio-only - otherwise some versions of
 	# mplayer will spend minutes looking for a nonexistent video stream.
-	subprocess.call (['mplayer', url, '-novideo'], shell=False)
+	subprocess.call (['mplayer', url, '-novideo'] + mplayer_args, shell=False)
 
 def launch_vlc (url, vlc_args):
 	# Make sure we actually have vlc
@@ -41,9 +41,9 @@ if __name__ == '__main__':
 		help="The player to use (currently either mplayer or vlc), the default is mplayer",
 		)
 	parser.add_argument (
-		'-o', '--player_options',
-		nargs='*',
-		help="Command-line arguments to pass the media player (UNIMPLEMETED)",
+		'-o', '--player-options',
+		nargs="*",
+		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
 		)
 	parser.add_argument (
 		'-t', '--stream_type',
@@ -81,6 +81,6 @@ if __name__ == '__main__':
 		exit ()
 
 	if (args.player == 'mplayer'):
-		launch_mplayer (station_url, [])
+		launch_mplayer (station_url, args.player_options[0].split ())
 	elif (args.player == 'vlc'):
-		launch_vlc (station_url, [])
+		launch_vlc (station_url, args.player_options[0].split ())
