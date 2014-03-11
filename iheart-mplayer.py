@@ -46,7 +46,7 @@ if __name__ == '__main__':
 		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
 		)
 	parser.add_argument (
-		'-t', '--stream_type',
+		'-t', '--stream-type',
 		default='auto',
 		help="The type of stream to use, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.",
 		)
