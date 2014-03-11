@@ -18,8 +18,8 @@ of this is copied from comments in the source code, referenced by file.
 #
 # http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
 
-<driver_common.py> (note that the 'station dictionary' is generated directly
-                   (from iheart's JSON by the standard json module)
+(in the following, note that the 'station dictionary' is generated directly
+(from iheart's JSON by the standard json module)
 
 # There are two keys within the station dictionary which contain dicts
 # of stream URLs. The first is 'stream_urls', which seems to always have
