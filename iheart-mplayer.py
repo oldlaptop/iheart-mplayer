@@ -33,9 +33,13 @@ def play_station (station_id):
 			print ("station name:", station['name'])
 			print ("description:", station['description'])
 			print ("broadcast format:", station['format'])
+			if (args.verbose >= 3):
+				print ("full dictionary dump:")
+				print (station)
 		except KeyError:
 			print ("warning: a field is missing")
-			if (verbose >= 2):
+			# at >2 we've done this already
+			if (verbose == 2):
 				print ("full dictionary dump:")
 				print (station)
 
@@ -43,7 +47,8 @@ def play_station (station_id):
 		station_url = parse_iheart_json.get_station_url (station, args.stream_type)
 	except KeyError:
 		print ("error: requested stream does not exist for this station")
-		if (args.verbose is not None and args.verbose >= 2):
+		# at >2 we've done this already
+		if (args.verbose is not None and args.verbose == 2):
 			print ("full dictionary dump:")
 			print (station)
 		exit ()
@@ -103,14 +108,13 @@ if __name__ == '__main__':
 		print ("hits:", results['totalStations'])
 		for station in results['stations']:
 			if (args.verbose):
-				print ("-- name:", station['name'], "id:" + str(station['id']))
+				print ("\n-- name:", station['name'], "id:" + str(station['id']))
 				print ('\t', "callsign:", station['callLetters'])
 				print ('\t', "frequency:", station['frequency'])
 				print ('\t', "city:", station['city'])
 				print ('\t', "state:", station['state'])
 				print ('\t', "description:", station['description'])
 				print ('\t', "relevancy score:", station['score'])
-				print ('')
 			else:
 				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
 	elif (args.lucky):

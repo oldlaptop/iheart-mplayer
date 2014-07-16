@@ -143,7 +143,7 @@ def detect_stream (station):
 	#
 	# Stations tend to have either both of the first two, OR both of the
 	# second two. There may be others I have not encountered - dictionary
-	# dumps (use -vv) of stations with other stream types would be greatly
+	# dumps (use -vvv) of stations with other stream types would be greatly
 	# appreciated.
 
 
