@@ -26,56 +26,8 @@ def launch_vlc (url, vlc_args):
 	# Now we run vlc.
 	subprocess.call (['vlc', url] + vlc_args, shell=False)
 
-if __name__ == '__main__':
-	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
-	parser.add_argument (
-		'stream_id',
-		nargs='?',
-		type=int,
-		help="The (five-digit?) ID number of the station",
-		)
-	parser.add_argument (
-		'-p', '--player',
-		default='mplayer',
-		choices=['mplayer', 'vlc'],
-		help="The player to use (currently either mplayer or vlc), the default is mplayer",
-		)
-	parser.add_argument (
-		'-o', '--player-options',
-		nargs=1,
-		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
-		)
-	parser.add_argument (
-		'-t', '--stream-type',
-		default='auto',
-		help="The type of stream to use, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.",
-		)
-	parser.add_argument (
-		'-s', '--search',
-		metavar='TERM',
-		help="List station search results for TERM"
-		)
-	parser.add_argument (
-		'-v', '--verbose',
-		action='count',
-		help="Display extra information",
-		)
-
-	args = parser.parse_args ()
-
-	if (args.search):
-		results = parse_iheart_json.station_search (args.search)
-
-		print ("hits:", results['totalStations'])
-		for station in results['stations']:
-			if (args.verbose):
-				pass
-			else:
-				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
-		exit ()
-
-	station = parse_iheart_json.station_info (args.stream_id[0])
-
+def play_station (station_id):
+	station = parse_iheart_json.station_info (station_id)
 	if (args.verbose):
 		try:
 			print ("station name:", station['name'])
@@ -100,3 +52,69 @@ if __name__ == '__main__':
 		launch_mplayer (station_url, (args.player_options[0].split if args.player_options else []))
 	elif (args.player == 'vlc'):
 		launch_vlc (station_url, (args.player_options[0].split if args.player_options else []))
+
+
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
+	action = parser.add_mutually_exclusive_group(required=True)
+	action.add_argument (
+		'stream_id',
+		nargs='?',
+		type=int,
+		help="The (five-digit?) ID number of the station",
+		)
+	action.add_argument (
+		'-s', '--search',
+		metavar='TERMS',
+		help="List station search results for TERMS"
+		)
+	action.add_argument (
+		'-l', '--lucky',
+		metavar='TERMS',
+		help="\"I\'m feeling lucky\" search for TERMS (play the first result)"
+		)
+	parser.add_argument (
+		'-p', '--player',
+		default='mplayer',
+		choices=['mplayer', 'vlc'],
+		help="The player to use (currently either mplayer or vlc), the default is mplayer",
+		)
+	parser.add_argument (
+		'-o', '--player-options',
+		nargs=1,
+		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
+		)
+	parser.add_argument (
+		'-t', '--stream-type',
+		default='auto',
+		help="The type of stream to use, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.",
+		)
+	parser.add_argument (
+		'-v', '--verbose',
+		action='count',
+		help="Display extra information",
+		)
+
+	args = parser.parse_args ()
+
+	if (args.search):
+		results = parse_iheart_json.station_search (args.search)
+
+		print ("hits:", results['totalStations'])
+		for station in results['stations']:
+			if (args.verbose):
+				print ("-- name:", station['name'], "id:" + str(station['id']))
+				print ('\t', "callsign:", station['callLetters'])
+				print ('\t', "frequency:", station['frequency'])
+				print ('\t', "city:", station['city'])
+				print ('\t', "state:", station['state'])
+				print ('\t', "description:", station['description'])
+				print ('\t', "relevancy score:", station['score'])
+				print ('')
+			else:
+				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
+	elif (args.lucky):
+		results = parse_iheart_json.station_search (args.lucky)
+		play_station (results['bestMatch']['id'])
+	else:
+		play_station (args.stream_id)

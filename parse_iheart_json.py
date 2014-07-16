@@ -4,11 +4,11 @@ import urllib.request
 import urllib.parse
 import json
 
-def station_search (search_keyword):
+def station_search (search_keywords):
 	''' Returns a dict containing iHeartRadio search results for search_keyword
 	
-	search_keyword is simple text (radio call letters, for instance - no
-	URL-illegal characters for the moment) which will be submitted to
+	search_keyword is a string (radio call letters, for instance -
+	URL-illegal characters will be escaped) which will be submitted to
 	iHeartRadio, matching against stations in their database. This function
 	will return a (potentially very large) dict containing detailed search
 	results, including station ID numbers, names, short descriptions,
@@ -44,11 +44,11 @@ def station_search (search_keyword):
 	# this program uses.
 
 	# Base URL for our API request
-	iheart_base_url="http://api.iheart.com/api/v1/catalog/searchAll?"
+	iheart_base_url = 'http://api.iheart.com/api/v1/catalog/searchAll?'
 
-	iheart_url = iheart_base_url + "&keywords=" + search_keyword
+	paramaters = urllib.parse.urlencode ({ 'keywords':search_keywords })
 
-	response = urllib.request.urlopen (iheart_url)
+	response = urllib.request.urlopen (iheart_base_url + paramaters)
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
@@ -89,18 +89,10 @@ def station_info (station_id):
 	#
 	# See also the docstring and block comment for station_search().
 
-	# The base URL for our API request
-	iheart_base_url = 'http://www.iheart.com/a/live/station/'
+	# The base URL for our API request (%s is for string substitution)
+	iheart_base_url = 'http://www.iheart.com/a/live/station/%i/stream/'
 
-	# The postfix for our API request URL (comes after the ID number)
-	iheart_url_postfix = 'stream/'
-
-	# We can't do this in one function call, since urljoin can't deal with
-	# more than two URL components.
-	iheart_url = urllib.parse.urljoin (iheart_base_url, (str(station_id) + '/'))
-	iheart_url = urllib.parse.urljoin (iheart_url, iheart_url_postfix)
-
-	response = urllib.request.urlopen (iheart_url, '1'.encode('utf-8'))
+	response = urllib.request.urlopen (iheart_base_url % station_id, '1'.encode('utf-8'))
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
