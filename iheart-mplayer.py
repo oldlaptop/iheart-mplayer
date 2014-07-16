@@ -30,7 +30,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
 	parser.add_argument (
 		'stream_id',
-		nargs=1,
+		nargs='?',
 		type=int,
 		help="The (five-digit?) ID number of the station",
 		)
@@ -51,12 +51,28 @@ if __name__ == '__main__':
 		help="The type of stream to use, currently either auto or one of shout, rtmp, stw, or pls. The default is auto.",
 		)
 	parser.add_argument (
+		'-s', '--search',
+		metavar='TERM',
+		help="List station search results for TERM"
+		)
+	parser.add_argument (
 		'-v', '--verbose',
 		action='count',
 		help="Display extra information",
 		)
 
 	args = parser.parse_args ()
+
+	if (args.search):
+		results = parse_iheart_json.station_search (args.search)
+
+		print ("hits:", results['totalStations'])
+		for station in results['stations']:
+			if (args.verbose):
+				pass
+			else:
+				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
+		exit ()
 
 	station = parse_iheart_json.station_info (args.stream_id[0])
 

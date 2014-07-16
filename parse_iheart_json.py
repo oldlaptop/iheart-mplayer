@@ -4,12 +4,70 @@ import urllib.request
 import urllib.parse
 import json
 
+def station_search (search_keyword):
+	''' Returns a dict containing iHeartRadio search results for search_keyword
+	
+	search_keyword is simple text (radio call letters, for instance - no
+	URL-illegal characters for the moment) which will be submitted to
+	iHeartRadio, matching against stations in their database. This function
+	will return a (potentially very large) dict containing detailed search
+	results, including station ID numbers, names, short descriptions,
+	locations, radio band/frequency, call letters, URLs to logo images, the
+	search algorithm's "score", and potentially other data. In addition
+	there seems to be some summary information, such as the number of search
+	results and other metadata. For now detailed documentation of this dict
+	is not available, manual inspection of results will be highly
+	illuminating.
+	'''
+
+	# This information is derived from deep packet inspection of the
+	# official iHeartRadio Android app's HTTP traffic. Exhaustive analysis
+	# has not been done as of this writing.
+	#
+	# iheartradio has a simple API for running searches against its station
+	# database. The response to a GET request to a URL of the form:
+	#
+	# http://api.iheart.com/api/v1/catalog/searchAll?&keywords=<keywords>
+	#
+	# where <keywords> is a search term, will be UTF-8 encoded JSON giving
+	# detailed search results; containing both search metadata and detailed
+	# information on all search results. Importantly, ID numbers for search
+	# results are included.
+	#
+	# There are a great many additional parameters that the official app
+	# includes. A full API request URL from the official app follows:
+	#
+	# http://api2.iheart.com/api/v1/catalog/searchAll?&keywords=wjr&bestMatch=True&queryStation=True&queryArtist=True&queryTrack=True&queryTalkShow=True&startIndex=0&maxRows=12&queryFeaturedStation=False&queryBundle=False&queryTalkTheme=False&amp_version=4.11.0
+	#
+	# Analysis of these parameters will be conducted some other time (TM),
+	# however it appears only &keywords is necessary; it is the only one
+	# this program uses.
+
+	# Base URL for our API request
+	iheart_base_url="http://api.iheart.com/api/v1/catalog/searchAll?"
+
+	iheart_url = iheart_base_url + "&keywords=" + search_keyword
+
+	response = urllib.request.urlopen (iheart_url)
+
+	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
+	# has probably changed in ways we can't deal with.
+	assert (response.getheader ('Content-Type') == 'application/json;charset=UTF-8')
+
+	results = json.loads (response.read ().decode ("utf-8"))
+
+	if (results['errors']):
+		raise RuntimeError(results['errors'])
+	else:
+		return results
+
 def station_info (station_id):
 	''' Returns a dict containing all available information about station_id
 
 	station_id is a five-digit number assigned to an iHeartRadio station.
 	No publicly documented method of obtaining a list of valid station_ids
-	is currently available.
+	is currently available, however see the function station_search in this
+	file.
 	'''
 
 	# The iheartradio API is not publicly documented, to my knowledge. At 
@@ -28,6 +86,8 @@ def station_info (station_id):
 	# station ID number is 1165:
 	#
 	# http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
+	#
+	# See also the docstring and block comment for station_search().
 
 	# The base URL for our API request
 	iheart_base_url = 'http://www.iheart.com/a/live/station/'
