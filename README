@@ -28,7 +28,7 @@ optional arguments:
   -v, --verbose         Display extra information
 
 Station IDs can be obtained with the search function (-s), or from the URL
-you'll get if you find a station on the website, for instance the ID for this
+you'll get if you find a station on the website; for instance the ID for this
 URL is 5361:
 
 http://www.iheart.com/live/News-Talk-760-5361/
