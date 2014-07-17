@@ -4,6 +4,9 @@ import urllib.request
 import urllib.parse
 import json
 
+class autodetectError (ValueError):
+	pass
+
 def station_search (search_keywords):
 	''' Returns a dict containing iHeartRadio search results for search_keyword
 	
@@ -161,7 +164,7 @@ def detect_stream (station):
 	                    'stw_stream']
 
 	stream_dict = station['streams']
-
+	choice = None
 
 	for candidate in preference_order:
 		try:
@@ -173,7 +176,12 @@ def detect_stream (station):
 	else:
 		# we have an stw_stream - almost certain to not work
 		print ("warning: using stw_stream, this stream type is not known to work anywhere")
-	return choice
+
+	if (choice is not None):
+		return choice
+	else:
+		# nothing in preference_order exists in the dict, we cannot cope
+		raise autodetectError ("No known stream exists")
 
 def get_station_url (station, stream_type):
 	'''Takes a station dictionary and a stream type, and returns a URL.

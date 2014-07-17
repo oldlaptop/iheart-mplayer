@@ -52,6 +52,13 @@ def play_station (station_id):
 			print ("full dictionary dump:")
 			print (station)
 		exit ()
+	except parse_iheart_json.autodetectError:
+		print ("error: this station provides no known stream type")
+		# at >2 we've done this already
+		if (args.verbose is not None and args.verbose == 2):
+			print ("full dictionary dump:")
+			print (station)
+		exit ()
 
 	if (args.player == 'mplayer'):
 		launch_mplayer (station_url, (args.player_options[0].split if args.player_options else []))
