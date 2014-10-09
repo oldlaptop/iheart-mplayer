@@ -61,9 +61,9 @@ def play_station (station_id):
 		exit ()
 
 	if (args.player == 'mplayer'):
-		launch_mplayer (station_url, (args.player_options[0].split if args.player_options else []))
+		launch_mplayer (station_url, (args.player_options[0].split() if args.player_options else []))
 	elif (args.player == 'vlc'):
-		launch_vlc (station_url, (args.player_options[0].split if args.player_options else []))
+		launch_vlc (station_url, (args.player_options[0].split() if args.player_options else []))
 
 
 if __name__ == '__main__':
