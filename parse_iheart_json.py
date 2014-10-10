@@ -60,7 +60,7 @@ def station_search (search_keywords):
 	results = json.loads (response.read ().decode ("utf-8"))
 
 	if (results['errors']):
-		raise RuntimeError(results['errors'])
+		raise RuntimeError (results['errors'])
 	else:
 		return results
 

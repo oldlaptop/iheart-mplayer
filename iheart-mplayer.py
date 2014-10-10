@@ -66,7 +66,7 @@ def play_station (station_id):
 		launch_vlc (station_url, (args.player_options[0].split() if args.player_options else []))
 
 
-if __name__ == '__main__':
+if (__name__ == '__main__'):
 	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
 	action = parser.add_mutually_exclusive_group(required=True)
 	action.add_argument (
