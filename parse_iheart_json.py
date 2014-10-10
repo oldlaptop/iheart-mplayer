@@ -128,11 +128,18 @@ def detect_stream (station):
 	#                   Widely understood and works in both VLC and mplayer,
 	#                   as far as I've tested.
 	#
+	#
 	# secure_rtmp_stream: An RTMP URL, not always the same as the RTMP URL
 	#                     in stream_urls. In cases I've seen it's more
 	#                     likely to work than the RTMP URL in stream_urls,
 	#                     but some mplayers still don't like it (VLC seems
 	#                     fine).
+	#
+	# rtmp_stream: Yet another rtmp URL; in the one instance I've seen so
+	#              far, it's identical to the one in stream_urls.
+	#
+	# hls_stream: A URL for Apple's HTTP Live Streaming protocol, understood
+	#             by recent mplayer and VLC.
 	#
 	# stw_stream: Some kind of special HTTP-based stream, which neither
 	#             mplayer or VLC understand. Seems related to the (former?)
@@ -144,23 +151,26 @@ def detect_stream (station):
 	#             HTTP links, none of which are the same as stw_stream.
 	#             Seems to work in VLC, but not any mplayer I have tested.
 	#
-	# Stations tend to have either both of the first two, OR both of the
-	# second two. There may be others I have not encountered - dictionary
-	# dumps (use -vvv) of stations with other stream types would be greatly
-	# appreciated.
-
-
+	# Stations tend to have either both shoutcast_stream and one of the
+	# RTMP streams, OR both stw_stream and pls_stream. There may be others I
+	# have not encountered - dictionary dumps (use -vvv) of stations with
+	# other stream types would be greatly appreciated.
+	
 	# For our purposes, the preference order is:
 	# shoutcast_stream
+	# hls_stream
 	# pls_stream
 	# secure_rtmp_stream
+	# rtmp_stream
 	# stw_stream
 	#
 	# stw_stream will print a warning, since it is not known to work in any
 	# player.
 	preference_order = ['shoutcast_stream',
+	                    'hls_stream',
 	                    'pls_stream',
 	                    'secure_rtmp_stream',
+	                    'rtmp_stream',
 	                    'stw_stream']
 
 	stream_dict = station['streams']
@@ -198,12 +208,18 @@ def get_station_url (station, stream_type):
 	# KeyError if the requested stream does not exist.
 	if (stream_type == 'auto'):
 		station_url = detect_stream (station)
-	elif (stream_type == 'rtmp'):
+	elif (stream_type == 'secure_rtmp'):
 		if (station['streams']['secure_rtmp_stream']):
 			station_url = station['streams']['secure_rtmp_stream']
+	elif (stream_type == 'rtmp'):
+		if (station['streams']['rtmp_stream']):
+			station_url = station['streams']['rtmp_stream']
 	elif (stream_type == 'shout'):
 		if (station['streams']['shoutcast_stream']):
 			station_url = station['streams']['shoutcast_stream']
+	elif (stream_type == 'hls'):
+		if (station['streams']['hls_stream']):
+			station_url = station['streams']['hls_stream']
 	elif (stream_type == 'stw'):
 		if (station['streams']['stw_stream']):
 			print ("warning: using stw_stream, this stream type is not known to work anywhere")
