@@ -211,19 +211,24 @@ def get_station_url (station, stream_type):
 	elif (stream_type == 'secure_rtmp'):
 		if (station['streams']['secure_rtmp_stream']):
 			station_url = station['streams']['secure_rtmp_stream']
+
 	elif (stream_type == 'rtmp'):
 		if (station['streams']['rtmp_stream']):
 			station_url = station['streams']['rtmp_stream']
+
 	elif (stream_type == 'shout'):
 		if (station['streams']['shoutcast_stream']):
 			station_url = station['streams']['shoutcast_stream']
+
 	elif (stream_type == 'hls'):
 		if (station['streams']['hls_stream']):
 			station_url = station['streams']['hls_stream']
+
 	elif (stream_type == 'stw'):
 		if (station['streams']['stw_stream']):
 			print ("warning: using stw_stream, this stream type is not known to work anywhere")
 			station_url = station['streams']['stw_stream']
+
 	elif (stream_type == 'pls'):
 		if (station['streams']['pls_stream']):
 			station_url = station['streams']['pls_stream']

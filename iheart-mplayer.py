@@ -48,14 +48,14 @@ def play_station (station_id):
 	except KeyError:
 		print ("error: requested stream does not exist for this station")
 		# at >2 we've done this already
-		if (args.verbose is not None and args.verbose == 2):
+		if (args.verbose == 2):
 			print ("full dictionary dump:")
 			print (station)
 		exit ()
 	except parse_iheart_json.autodetectError:
 		print ("error: this station provides no known stream type")
 		# at >2 we've done this already
-		if (args.verbose is not None and args.verbose == 2):
+		if (args.verbose == 2):
 			print ("full dictionary dump:")
 			print (station)
 		exit ()
@@ -67,24 +67,10 @@ def play_station (station_id):
 
 
 if (__name__ == '__main__'):
+
 	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
-	action = parser.add_mutually_exclusive_group(required=True)
-	action.add_argument (
-		'stream_id',
-		nargs='?',
-		type=int,
-		help="The (five-digit?) ID number of the station",
-		)
-	action.add_argument (
-		'-s', '--search',
-		metavar='TERMS',
-		help="List station search results for TERMS"
-		)
-	action.add_argument (
-		'-l', '--lucky',
-		metavar='TERMS',
-		help="\"I\'m feeling lucky\" search for TERMS (play the first result)"
-		)
+
+	# Optional arguments
 	parser.add_argument (
 		'-p', '--player',
 		default='mplayer',
@@ -105,6 +91,26 @@ if (__name__ == '__main__'):
 		'-v', '--verbose',
 		action='count',
 		help="Display extra information",
+		)
+
+	# The three required arguments; one and only one must be given
+
+	action = parser.add_mutually_exclusive_group(required=True)
+	action.add_argument (
+		'stream_id',
+		nargs='?',
+		type=int,
+		help="The (five-digit?) ID number of the station",
+		)
+	action.add_argument (
+		'-s', '--search',
+		metavar='TERMS',
+		help="List station search results for TERMS"
+		)
+	action.add_argument (
+		'-l', '--lucky',
+		metavar='TERMS',
+		help="\"I\'m feeling lucky\" search for TERMS (play the first result)"
 		)
 
 	args = parser.parse_args ()
