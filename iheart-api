@@ -42,6 +42,12 @@ of this is copied from comments in the source code, referenced by file.
 #                     but some mplayers still don't like it (VLC seems
 #                     fine).
 #
+# rtmp_stream: Yet another rtmp URL; in the one instance I've seen so
+#              far, it's identical to the one in stream_urls.
+#
+# hls_stream: A URL for Apple's HTTP Live Streaming protocol, understood
+#             by recent mplayer and VLC.
+#
 # stw_stream: Some kind of special HTTP-based stream, which neither
 #             mplayer or VLC understand. Seems related to the (former?)
 #             StreamTheWorld Flash-based platform, always(?) seems to
@@ -52,7 +58,7 @@ of this is copied from comments in the source code, referenced by file.
 #             HTTP links, none of which are the same as stw_stream.
 #             Seems to work in VLC, but not any mplayer I have tested.
 #
-# Stations tend to have either both of the first two, OR both of the
-# second two. There may be others I have not encountered - dictionary
-# dumps (use -vv) of stations with other stream types would be greatly
-# appreciated.
+# Stations tend to have either both shoutcast_stream and one of the
+# RTMP streams, OR both stw_stream and pls_stream. There may be others I
+# have not encountered - dictionary dumps (use -vvv) of stations with
+# other stream types would be greatly appreciated.
