@@ -128,7 +128,6 @@ def detect_stream (station):
 	#                   Widely understood and works in both VLC and mplayer,
 	#                   as far as I've tested.
 	#
-	#
 	# secure_rtmp_stream: An RTMP URL, not always the same as the RTMP URL
 	#                     in stream_urls. In cases I've seen it's more
 	#                     likely to work than the RTMP URL in stream_urls,
