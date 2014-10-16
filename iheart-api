@@ -17,9 +17,36 @@ of this is copied from comments in the source code, referenced by file.
 # URL, the station ID number is 1165:
 #
 # http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
+#
+# See also the docstring and block comment for station_search().
+
+(by happy coincidence, here's the block comment for station_search())
+
+# This information is derived from deep packet inspection of the
+# official iHeartRadio Android app's HTTP traffic. Exhaustive analysis
+# has not been done as of this writing.
+#
+# iheartradio has a simple API for running searches against its station
+# database. The response to a GET request to a URL of the form:
+#
+# http://api.iheart.com/api/v1/catalog/searchAll?&keywords=<keywords>
+#
+# where <keywords> is a search term, will be UTF-8 encoded JSON giving
+# detailed search results; containing both search metadata and detailed
+# information on all search results. Importantly, ID numbers for search
+# results are included.
+#
+# There are a great many additional parameters that the official app
+# includes. A full API request URL from the official app follows:
+#
+# http://api2.iheart.com/api/v1/catalog/searchAll?&keywords=wjr&bestMatch=True&queryStation=True&queryArtist=True&queryTrack=True&queryTalkShow=True&startIndex=0&maxRows=12&queryFeaturedStation=False&queryBundle=False&queryTalkTheme=False&amp_version=4.11.0
+#
+# Analysis of these parameters will be conducted some other time (TM),
+# however it appears only &keywords is necessary; it is the only one
+# this program uses.
 
 (in the following, note that the 'station dictionary' is generated directly
-(from iheart's JSON by the standard json module)
+from iheart's JSON by the standard json module)
 
 # There are two keys within the station dictionary which contain dicts
 # of stream URLs. The first is 'stream_urls', which seems to always have
