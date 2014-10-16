@@ -1,6 +1,6 @@
 $ ./iheart-mplayer.py -h
-usage: iheart-mplayer.py [-h] [-s TERMS] [-l TERMS] [-p {mplayer,vlc}]
-                         [-o PLAYER_OPTIONS] [-t STREAM_TYPE] [-v]
+usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS]
+                         [-t STREAM_TYPE] [-v] [-s TERMS] [-l TERMS]
                          [stream_id]
 
 Play an iHeartRadio station in mplayer or VLC
@@ -10,11 +10,6 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -s TERMS, --search TERMS
-                        List station search results for TERMS
-  -l TERMS, --lucky TERMS
-                        "I'm feeling lucky" search for TERMS (play the first
-                        result)
   -p {mplayer,vlc}, --player {mplayer,vlc}
                         The player to use (currently either mplayer or vlc),
                         the default is mplayer
@@ -24,11 +19,20 @@ optional arguments:
                         this is ugly, blame argparse.
   -t STREAM_TYPE, --stream-type STREAM_TYPE
                         The type of stream to use, currently either auto or
-                        one of shout, rtmp, stw, or pls. The default is auto.
+                        one of shout, hls, secure_rtmp, rtmp, stw, or pls. The
+                        default is auto.
   -v, --verbose         Display extra information
+  -s TERMS, --search TERMS
+                        List station search results for TERMS
+  -l TERMS, --lucky TERMS
+                        "I'm feeling lucky" search for TERMS (play the first
+                        result)
 
 Station IDs can be obtained with the search function (-s), or from the URL
 you'll get if you find a station on the website; for instance the ID for this
 URL is 5361:
 
 http://www.iheart.com/live/News-Talk-760-5361/
+
+Further technical documentation can be found in the source itself, and in
+iheart-api.
