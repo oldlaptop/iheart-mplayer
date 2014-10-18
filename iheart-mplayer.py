@@ -26,13 +26,23 @@ def launch_vlc (url, vlc_args):
 	# Now we run vlc.
 	subprocess.call (['vlc', url] + vlc_args, shell=False)
 
+def dump_station_details (station):
+	print ("station name:", station['name'])
+	print ("call letters:", station['callLetters'])
+	print ("location:", station['city'], station['state'], station['countries'])
+	print ("description:", station['description'])
+	print ("broadcast format:", station['format'])
+
+	print ("available stream types:", end = ' ')
+	for st in station['streams']:
+		print (st, end = ' ')
+	print ()
+
 def play_station (station_id):
 	station = parse_iheart_json.station_info (station_id)
 	if (args.verbose):
 		try:
-			print ("station name:", station['name'])
-			print ("description:", station['description'])
-			print ("broadcast format:", station['format'])
+			dump_station_details (station)
 			if (args.verbose >= 3):
 				print ("full dictionary dump:")
 				print (station)
@@ -65,7 +75,6 @@ def play_station (station_id):
 	elif (args.player == 'vlc'):
 		launch_vlc (station_url, (args.player_options[0].split() if args.player_options else []))
 
-
 if (__name__ == '__main__'):
 
 	parser = argparse.ArgumentParser (description="Play an iHeartRadio station in mplayer or VLC")
@@ -92,12 +101,17 @@ if (__name__ == '__main__'):
 		action='count',
 		help="Display extra information",
 		)
+	parser.add_argument (
+		'-i', '--info',
+		action='store_true',
+		help="Instead of playing station_id, output some information about it",
+		)
 
 	# The three required arguments; one and only one must be given
 
 	action = parser.add_mutually_exclusive_group(required=True)
 	action.add_argument (
-		'stream_id',
+		'station_id',
 		nargs='?',
 		type=int,
 		help="The (five-digit?) ID number of the station",
@@ -134,4 +148,7 @@ if (__name__ == '__main__'):
 		results = parse_iheart_json.station_search (args.lucky)
 		play_station (results['bestMatch']['id'])
 	else:
-		play_station (args.stream_id)
+		if (args.info):
+			dump_station_details (parse_iheart_json.station_info (args.station_id))
+		else:
+			play_station (args.station_id)

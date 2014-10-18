@@ -1,12 +1,12 @@
 $ ./iheart-mplayer.py -h
 usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS]
-                         [-t STREAM_TYPE] [-v] [-s TERMS] [-l TERMS]
-                         [stream_id]
+                         [-t STREAM_TYPE] [-v] [-i] [-s TERMS] [-l TERMS]
+                         [station_id]
 
 Play an iHeartRadio station in mplayer or VLC
 
 positional arguments:
-  stream_id             The (five-digit?) ID number of the station
+  station_id            The (five-digit?) ID number of the station
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -22,6 +22,8 @@ optional arguments:
                         one of shout, hls, secure_rtmp, rtmp, stw, or pls. The
                         default is auto.
   -v, --verbose         Display extra information
+  -i, --info            Instead of playing station_id, output some information
+                        about it
   -s TERMS, --search TERMS
                         List station search results for TERMS
   -l TERMS, --lucky TERMS
