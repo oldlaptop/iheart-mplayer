@@ -1,6 +1,6 @@
 $ ./iheart-mplayer.py -h
-usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS]
-                         [-t STREAM_TYPE] [-v] [-i] [-s TERMS] [-l TERMS]
+usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS] [-v] [-i]
+                         [-s TERMS] [-l TERMS]
                          [station_id]
 
 Play an iHeartRadio station in mplayer or VLC
@@ -17,10 +17,6 @@ optional arguments:
                         Command-line arguments to pass the media player,
                         should be a quoted string beginning with a space. Yes,
                         this is ugly, blame argparse.
-  -t STREAM_TYPE, --stream-type STREAM_TYPE
-                        The type of stream to use, currently either auto or
-                        one of shout, hls, secure_rtmp, rtmp, stw, or pls. The
-                        default is auto.
   -v, --verbose         Display extra information
   -i, --info            Instead of playing station_id, output some information
                         about it

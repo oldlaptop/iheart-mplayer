@@ -54,16 +54,9 @@ def play_station (station_id):
 				print (station)
 
 	try:
-		station_url = parse_iheart_json.get_station_url (station, args.stream_type)
+		station_url = parse_iheart_json.get_station_url (station)
 	except KeyError:
 		print ("error: requested stream does not exist for this station")
-		# at >2 we've done this already
-		if (args.verbose == 2):
-			print ("full dictionary dump:")
-			print (station)
-		exit ()
-	except parse_iheart_json.autodetectError:
-		print ("error: this station provides no known stream type")
 		# at >2 we've done this already
 		if (args.verbose == 2):
 			print ("full dictionary dump:")
@@ -90,11 +83,6 @@ if (__name__ == '__main__'):
 		'-o', '--player-options',
 		nargs=1,
 		help="Command-line arguments to pass the media player, should be a quoted string beginning with a space. Yes, this is ugly, blame argparse.",
-		)
-	parser.add_argument (
-		'-t', '--stream-type',
-		default='auto',
-		help="The type of stream to use, currently either auto or one of shout, hls, secure_rtmp, rtmp, stw, or pls. The default is auto.",
 		)
 	parser.add_argument (
 		'-v', '--verbose',
