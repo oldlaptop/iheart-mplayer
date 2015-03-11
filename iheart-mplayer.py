@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
 import parse_iheart_json
+
+import urllib.error
 import argparse
 import subprocess
 
@@ -39,7 +41,18 @@ def dump_station_details (station):
 	print ()
 
 def play_station (station_id):
-	station = parse_iheart_json.station_info (station_id)
+	station = None
+	attempts = 0
+
+	# Attempt to compensate for random HTTP 500 errors from iheart
+	while (station is None and attempts < 3):
+		try:
+			station = parse_iheart_json.station_info (station_id)
+		except urllib.error.HTTPError as inst:
+			print ("warning: http error from iheart server; retrying:")
+			print (inst)
+			attempts += 1
+
 	if (args.verbose):
 		try:
 			dump_station_details (station)
