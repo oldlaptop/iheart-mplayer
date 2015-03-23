@@ -1,0 +1,5 @@
+#! /bin/sh
+
+IHEART_URL=${IHEART_URL:-"./iheart-url"}
+
+vlc $VLCOPTS $($IHEART_URL $@)

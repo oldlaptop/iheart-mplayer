@@ -1,0 +1,9 @@
+#! /bin/sh
+
+IHEART_URL=${IHEART_URL:-"./iheart-url"}
+
+# mplayer will sometimes look for a video stream and attempt to play it, causing
+# a long delay before it realizes there isn't one. We correct this behavior.
+MPLAYER_OPTS="$MPLAYER_OPTS -novideo"
+
+mplayer $MPLAYER_OPTS $($IHEART_URL $@)
