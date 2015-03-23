@@ -68,7 +68,7 @@ def print_url (station_id):
 
 if (__name__ == '__main__'):
 
-	parser = argparse.ArgumentParser (description="Print the URL of an iheartradio station")
+	parser = argparse.ArgumentParser (description="Print the audio stream URL for an iheartradio station")
 
 	# Optional arguments
 	parser.add_argument (

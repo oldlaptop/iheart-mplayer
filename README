@@ -1,30 +1,30 @@
-$ ./iheart-mplayer.py -h
-usage: iheart-mplayer.py [-h] [-p {mplayer,vlc}] [-o PLAYER_OPTIONS] [-v] [-i]
-                         [-s TERMS] [-l TERMS]
-                         [station_id]
+$ ./iheart-url -h
+usage: iheart-url [-h] [-v] [-i] [-s TERMS] [-l TERMS] [station_id]
 
-Play an iHeartRadio station in mplayer or VLC
+Print the audio stream URL for an iheartradio station
 
 positional arguments:
   station_id            The (five-digit?) ID number of the station
 
 optional arguments:
   -h, --help            show this help message and exit
-  -p {mplayer,vlc}, --player {mplayer,vlc}
-                        The player to use (currently either mplayer or vlc),
-                        the default is mplayer
-  -o PLAYER_OPTIONS, --player-options PLAYER_OPTIONS
-                        Command-line arguments to pass the media player,
-                        should be a quoted string beginning with a space. Yes,
-                        this is ugly, blame argparse.
   -v, --verbose         Display extra information
-  -i, --info            Instead of playing station_id, output some information
-                        about it
+  -i, --info            Instead of printing the stream URL for the station,
+                        output some information about it
   -s TERMS, --search TERMS
                         List station search results for TERMS
   -l TERMS, --lucky TERMS
-                        "I'm feeling lucky" search for TERMS (play the first
-                        result)
+                        "I'm feeling lucky" search for TERMS (print URL for
+                        the first result)
+
+The primary intended usage of iheart-url is in UNIX shell command subsitution,
+like so:
+
+$ mplayer -novideo $(./iheart-url [station_id])
+
+Two trivial shell scripts that do exactly this, iheart-mplayer and iheart-vlc,
+are included. They both pass all of their own positional arguments to iheart-url,
+and therefore their commandline usage is essentially identical.
 
 Station IDs can be obtained with the search function (-s), or from the URL
 you'll get if you find a station on the website; for instance the ID for this
