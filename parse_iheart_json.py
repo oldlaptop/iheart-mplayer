@@ -106,17 +106,56 @@ def station_info (station_id):
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
-	assert (response.getheader('Content-Type') == 'application/json')
+	assert (response.getheader ('Content-Type') == 'application/json')
 
-	station = json.loads (response.read().decode('utf-8'))
+	station = json.loads (response.read ().decode('utf-8'))
 
 	if (not station):
 		raise RuntimeError("station dict empty")
 	else:
 		return station
 
+def depls (pls_url):
+	'''PLS to HTTP audio stream
+	
+	Assuming pls_url is the location of a PLS stream, rip out File1 and
+	return the contents. This is meant to be used to cut through the PLS
+	junk returned by some iheartradio stations as a "stream" URL. As a
+	warning, if this function gets confused it may well just pass the
+	original URL back.
+	'''
+
+	response = urllib.request.urlopen (pls_url)
+
+	# Failure of this assert is marginally more likely than it is for the
+	# iheart API functions, and may simply indicate that there is variation
+	# between different servers serving PLS playlists for iheartradio;
+	# I'd like to know the station id for any station which causes this to
+	# be tripped.
+	assert (response.getheader ('Content-Type') == 'audio/x-scpls; charset=UTF-8')
+
+	playlist_file = response.read ().decode('utf-8').splitlines ()
+	# We simply pull out the first entry (File1) with brute force.
+	for candidate in playlist_file:
+		if ("File1" in candidate):
+			# The format of these lines will be FileN=<url> or so
+			return candidate[len ("File1="):]
+	else:
+		# We fell through, something went wrong in the oh-so-robust
+		# "parsing" logic above. It won't hurt things too bad to just
+		# toss the original URL back to the caller.
+		return pls_url
+
+
 def get_station_url (station):
 	'''Takes a station dictionary and returns a URL.
 	'''
 
-	return station['streams'][0]['url']
+	# Some stations (StreamTheWorld/Cumulus) provide URLs to a PLS playlist,
+	# rather than a direct HTTP/RTMP URL. Not all media players (notably
+	# mplayer) can process this directly, so we simply pull the first entry
+	# out of it and return that.
+	if ((station['streams'][0]['url'])[-3:] == "pls"):
+		return depls (station['streams'][0]['url'])
+	else:
+		return station['streams'][0]['url']
