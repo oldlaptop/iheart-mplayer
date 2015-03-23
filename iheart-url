@@ -7,6 +7,10 @@ import argparse
 import subprocess
 import logging
 
+# Something that will cause a player to error out, written to stdout when we
+# can't get a real station URL for some reason
+BAD_STATION = "no://station/found"
+
 def dump_station_details (station, dumpfunc = print):
 	dumpfunc ("station name:", station['name'])
 	dumpfunc ("call letters:", station['callLetters'])
@@ -33,8 +37,8 @@ def print_url (station_id):
 			attempts += 1
 	else:
 		logging.error ("could not get station URL")
-		# Something that will cause a player to error out
-		print ("no://station/found")
+		print (BAD_STATION)
+		return
 
 	if (args.verbose):
 		try:
@@ -57,7 +61,8 @@ def print_url (station_id):
 		if (args.verbose == 2):
 			logging.debug ("full dictionary dump:")
 			logging.debug (station)
-		exit ()
+		print (BAD_STATION)
+		return
 
 	print (station_url)
 
@@ -122,7 +127,15 @@ if (__name__ == '__main__'):
 	else:
 		if (args.lucky):
 			results = parse_iheart_json.station_search (args.lucky)
-			station_id = (results['bestMatch']['id'])
+
+			# iheart will not necessarily decide that one match is
+			# "best" for us
+			if (results['bestMatch'] is not None):
+				station_id = (results['bestMatch']['id'])
+			else:
+				logging.error ("no stations found for \"I'm feeling lucky\" search")
+				print (BAD_STATION)
+				exit ()
 		else:
 			station_id = args.station_id
 
