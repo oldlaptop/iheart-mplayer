@@ -27,7 +27,7 @@ are included. They both pass all of their own positional arguments to
 iheart-url, and therefore their commandline usage is essentially identical. So
 to actually play a radio station, you might do:
 
-$ iheart-mplayer [station_id]
+$ ./iheart-mplayer [station_id]
 
 Station IDs can be obtained with the search function (-s), or from the URL
 you'll get if you find a station on the website; for instance the ID for this
