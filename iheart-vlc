@@ -2,4 +2,4 @@
 
 IHEART_URL=${IHEART_URL:-"./iheart-url"}
 
-vlc $VLCOPTS $($IHEART_URL $@)
+vlc $VLCOPTS $("$IHEART_URL" "$@")
