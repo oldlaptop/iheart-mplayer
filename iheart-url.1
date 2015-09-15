@@ -1,0 +1,119 @@
+.Dd $Mdocdate$
+.Dt IHEART-URL 1
+.Os
+
+.Sh NAME
+.Nm iheart-url
+.Nd print the audio stream URL for an iheartradio station
+.Sh SYNOPSIS
+.Nm iheart-url
+.Op Fl h
+.Op Fl i
+.Op Fl l Ar terms
+.Op Fl s Ar terms
+.Op Fl v
+.Op station_id
+.Nm iheart-mplayer
+.Op Fl l Ar terms
+.Op Fl s Ar terms
+.Op station_id
+.Nm iheart-mpv
+.Op Fl l Ar terms
+.Op Fl s Ar terms
+.Op station_id
+.Nm iheart-vlc
+.Op Fl l Ar terms
+.Op Fl s Ar terms
+.Op station_id
+.Sh DESCRIPTION
+.Nm
+fetches the URL for an iHeartRadio station's audio stream from iHeartRadio's
+API servers and prints it to stdout. It is meant to be used with audio players
+and the command substitution syntax in most shells, like so:
+.Bd -literal -offset -indent
+$ mplayer -novideo "$(iheart-url [station_id])"
+.Ed
+
+.Nm iheart-mplayer,
+.Nm iheart-mpv,
+and
+.Nm iheart-vlc
+are trivial POSIX sh wrapper scripts that do precisely that for the players
+indicated in their names.
+
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl h
+Display a help message. Meaningless for wrapper scripts.
+.It Fl i
+Instead of printing the URL for a station, output some human-readable info about
+it. Meaningless for wrapper scripts.
+.It Fl l Ar terms
+.Dq I'm feeling lucky
+search for terms; print the URL of the
+.Dq best
+result according to iHeartRadio's servers.
+.It Fl s Ar terms
+Run a search for terms, outputting vital information like station ID for each
+result. Meaningless for wrapper scripts.
+.It Fl v
+Increase verbosity level, may be specified multiple times for more verbosity.
+Useful in conjunction with
+.Fl i
+and
+.Fl s.
+Meaningless for wrapper scripts.
+.It station_id
+Print the URL for this numerical station ID. Station IDs can be obtained with
+.Fl i
+or
+.Fl s.
+.El
+.Sh ENVIRONMENT
+.Bl -hang -width "PLAYER_OPTSXX" -compact
+.It Ev MPLAYER_OPTS
+.It Ev MPV_OPTS
+.It Ev VLC_OPTS
+Command line arguments for wrapper scripts to pass their players.
+.El
+.Sh EXAMPLES
+Print the URL for station ID 5361:
+.Bd -literal -offset -indent
+$ iheart-url 5361
+.Ed
+
+Print expanded search results for the term
+.Dq Sports:
+.Bd -literal -offset -indent
+$ iheart-url -vs Sports
+.Ed
+
+Play the best match for the search term
+.Dq Classic rock
+in mpv
+.Pq note the use of double quotes to prevent the shell from field-splitting the search term:
+.Bd -literal -offset -indent
+$ iheart-mpv -l "Classic rock"
+.Ed
+.Sh CAVEATS
+While most media players capable of handling network streams will be able to use
+these URLs, the lack of public documentation concerning iHeartRadio's API
+precludes any guarantees about the content provided.
+.Sh BUGS
+.Nm iheart-mplayer,
+.Nm iheart-mpv,
+and
+.Nm iheart-vlc
+naively pass all their arguments to iheart-url, and all of iheart-url's stdio
+output to the player. Players do not particularly like the output of
+.Fl h,
+.Fl i,
+or
+.Fl s.
+
+Multiple people have reported intermittent outages of the iHeartRadio API,
+during which it may return HTTP errors for iheart-url's requests for certain
+stations.
+
+Up-to-date information on any issues can be found on the Github issue tracker:
+https://github.com/oldlaptop/iheart-mplayer/issues
