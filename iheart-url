@@ -49,7 +49,7 @@ def print_url (station_id):
 		except KeyError:
 			logging.warning ("a field is missing")
 			# at >2 we've done this already
-			if (verbose == 2):
+			if (args.verbose == 2):
 				logging.debug ("full dictionary dump:")
 				logging.debug (station)
 
