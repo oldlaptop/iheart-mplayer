@@ -22,10 +22,10 @@ like so:
 
 $ mplayer -novideo $(./iheart-url [station_id])
 
-Two trivial shell scripts that do exactly this, iheart-mplayer and iheart-vlc,
-are included. They both pass all of their own positional arguments to 
-iheart-url, and therefore their commandline usage is essentially identical. So
-to actually play a radio station, you might do:
+Several trivial POSIX sh scripts to do this with various media players are
+included. They pass all of their own positional arguments to iheart-url, and
+therefore their commandline usage is essentially identical. So to actually
+play a radio station, you might do:
 
 $ ./iheart-mplayer [station_id]
 
