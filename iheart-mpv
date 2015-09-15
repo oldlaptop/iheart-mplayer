@@ -1,0 +1,5 @@
+#! /bin/sh
+
+IHEART_URL=${IHEART_URL:-"./iheart-url"}
+
+mpv $MPV_OPTS $("$IHEART_URL" "$@")
