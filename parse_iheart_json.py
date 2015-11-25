@@ -110,8 +110,8 @@ def station_info (station_id):
 
 	station = json.loads (response.read ().decode('utf-8'))
 
-	if (not station):
-		raise RuntimeError("station dict empty")
+	if (not station['streams']):
+		raise RuntimeError("station streams list empty")
 	else:
 		return station
 

@@ -13,30 +13,29 @@ import time
 BAD_STATION = "no://station/found"
 
 def dump_station_details (station, dumpfunc = print):
-	dumpfunc ("station name:", station['name'])
-	dumpfunc ("call letters:", station['callLetters'])
-	dumpfunc ("location:", station['city'], station['state'], station['countries'])
-	dumpfunc ("description:", station['description'])
-	dumpfunc ("broadcast format:", station['format'])
-
-	dumpfunc ("available stream types:", end = ' ')
-	for st in station['streams']:
-		dumpfunc (st, end = ' ')
+	dumpfunc ("station name:", station['streams'][0]['name'])
+	dumpfunc ("call letters:", station['streams'][0]['call_letters'])
+	dumpfunc ("location:", station['streams'][0]['city'] + ",", station['streams'][0]['state'] + ",", station['streams'][0]['country'])
+	dumpfunc ("description:", station['streams'][0]['description'])
+	dumpfunc ("broadcast format:", station['streams'][0]['format'])
 
 def print_url (station_id):
 	station = None
 	attempts = 0
 
-	# Attempt to compensate for random HTTP 500 errors from iheart
 	while (attempts < 3):
 		try:
 			station = parse_iheart_json.station_info (station_id)
 			break
 		except urllib.error.HTTPError as inst:
+			# Attempt to compensate for random HTTP 500 errors
 			logging.warning ("http error from iheart server; retrying:")
 			logging.warning (inst)
 			attempts += 1
 			time.sleep (2);
+		except RuntimeError:
+			logging.error (inst)
+			return
 	else:
 		logging.error ("could not get station URL")
 		print (BAD_STATION)
@@ -45,24 +44,17 @@ def print_url (station_id):
 	if (args.verbose):
 		try:
 			dump_station_details (station, dumpfunc = logging.debug)
-			if (args.verbose >= 3):
-				logging.debug ("full dictionary dump:")
-				logging.debug (station)
 		except KeyError:
 			logging.warning ("a field is missing")
-			# at >2 we've done this already
-			if (args.verbose == 2):
-				logging.debug ("full dictionary dump:")
-				logging.debug (station)
+			logging.debug ("full dictionary dump:")
+			logging.debug (station)
 
 	try:
 		station_url = parse_iheart_json.get_station_url (station)
 	except KeyError:
-		logging.error ("requested stream does not exist for this station")
-		# at >2 we've done this already
-		if (args.verbose == 2):
-			logging.debug ("full dictionary dump:")
-			logging.debug (station)
+		logging.error ("stream not found for this station!")
+		logging.debug ("full dictionary dump:")
+		logging.debug (station)
 		print (BAD_STATION)
 		return
 
@@ -105,11 +97,10 @@ if (__name__ == '__main__'):
 
 	args = parser.parse_args ()
 
-	logging.basicConfig (format = "%(levelname)s".lower () + ": %(message)s")
-
 	if (args.verbose):
-		# Turn on all the debug prints
-		logging.basicConfig (level = logging.DEBUG)
+		logging.basicConfig (format = "%(levelname)s".lower () + ": %(message)s", level = logging.DEBUG)
+	else:
+		logging.basicConfig (format = "%(levelname)s: %(message)s", level = logging.INFO) 
 
 	if (args.search):
 		results = parse_iheart_json.station_search (args.search)
@@ -142,13 +133,13 @@ if (__name__ == '__main__'):
 			station_id = args.station_id
 
 		if (args.info):
+			station = None;
 			try:
-				dump_station_details (parse_iheart_json.station_info (station_id))
+				station = parse_iheart_json.station_info (station_id)
+				dump_station_details (station)
 			except KeyError:
-				logging.info ("error: requested stream does not exist for this station")
-				# at >2 we've done this already
-				if (args.verbose == 2):
-					logging.info ("full dictionary dump:")
-					logging.info (station)
+				logging.error ("information field not found (has the iHeartRadio API changed?)")
+				logging.debug ("full dictionary dump:")
+				logging.debug (station)
 		else:
 			print_url (station_id)
