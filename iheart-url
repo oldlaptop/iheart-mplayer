@@ -6,6 +6,7 @@ import urllib.error
 import argparse
 import subprocess
 import logging
+import time
 
 # Something that will cause a player to error out, written to stdout when we
 # can't get a real station URL for some reason
@@ -35,6 +36,7 @@ def print_url (station_id):
 			logging.warning ("http error from iheart server; retrying:")
 			logging.warning (inst)
 			attempts += 1
+			time.sleep (2);
 	else:
 		logging.error ("could not get station URL")
 		print (BAD_STATION)
