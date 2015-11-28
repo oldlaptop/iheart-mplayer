@@ -33,7 +33,7 @@ def print_url (station_id):
 			logging.warning (inst)
 			attempts += 1
 			time.sleep (2);
-		except RuntimeError:
+		except RuntimeError as inst:
 			logging.error (inst)
 			return
 	else:
