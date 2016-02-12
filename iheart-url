@@ -35,6 +35,7 @@ def print_url (station_id):
 			time.sleep (2);
 		except RuntimeError as inst:
 			logging.error (inst)
+			print (BAD_STATION)
 			return
 	else:
 		logging.error ("could not get station URL")
