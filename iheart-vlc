@@ -1,4 +1,5 @@
 #! /bin/sh
+set -f
 
 IHEART_URL=${IHEART_URL:-"./iheart-url"}
 
