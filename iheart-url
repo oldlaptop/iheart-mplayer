@@ -25,7 +25,7 @@ def print_url (station_id):
 
 	while (attempts < 3):
 		try:
-			station = parse_iheart_json.station_info (station_id)
+			station = parse_iheart_json.station_info (station_id, tls)
 			break
 		except urllib.error.HTTPError as inst:
 			# Attempt to compensate for random HTTP 500 errors
@@ -51,7 +51,7 @@ def print_url (station_id):
 			logging.debug (station)
 
 	try:
-		station_url = parse_iheart_json.get_station_url (station)
+		station_url = parse_iheart_json.get_station_url (station, tls)
 	except KeyError as inst:
 		if (str (inst) == 'None'):
 			logging.error ("no valid stream for this station (if tls is off, try turning it on)")
@@ -82,6 +82,11 @@ if (__name__ == '__main__'):
 		action='store_true',
 		help="Instead of printing the stream URL for the station, output some information about it",
 		)
+	parser.add_argument (
+		'-c', '--cleartext',
+		action='store_true',
+		help="Disable TLS when communicating with iHeartRadio, and do not return a TLS stream URL",
+		)
 
 	# The three required arguments; one and only one must be given
 	action = parser.add_mutually_exclusive_group(required=True)
@@ -90,7 +95,7 @@ if (__name__ == '__main__'):
 		nargs='?',
 		type=int,
 		help="The (five-digit?) ID number of the station",
-		)
+		)	
 	action.add_argument (
 		'-s', '--search',
 		metavar='TERMS',
@@ -107,10 +112,12 @@ if (__name__ == '__main__'):
 	if (args.verbose):
 		logging.basicConfig (format = "%(levelname)s".lower () + ": %(message)s", level = logging.DEBUG)
 	else:
-		logging.basicConfig (format = "%(levelname)s: %(message)s", level = logging.INFO) 
+		logging.basicConfig (format = "%(levelname)s: %(message)s", level = logging.INFO)
+
+	tls = not args.cleartext
 
 	if (args.search):
-		results = parse_iheart_json.station_search (args.search)
+		results = parse_iheart_json.station_search (args.search, tls)
 
 		print ("hits:", results['totalStations'])
 		for station in results['stations']:
@@ -125,8 +132,9 @@ if (__name__ == '__main__'):
 			else:
 				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
 	else:
+		# Determine station_id, either by the lucky search or from the commandline
 		if (args.lucky):
-			results = parse_iheart_json.station_search (args.lucky)
+			results = parse_iheart_json.station_search (args.lucky, tls)
 
 			# iheart will not necessarily decide that one match is
 			# "best" for us
@@ -139,10 +147,11 @@ if (__name__ == '__main__'):
 		else:
 			station_id = args.station_id
 
+		# Print info XOR print URL, for the station_id found above
 		if (args.info):
 			station = None;
 			try:
-				station = parse_iheart_json.station_info (station_id)
+				station = parse_iheart_json.station_info (station_id, tls)
 				dump_station_details (station)
 			except KeyError:
 				logging.error ("information field not found (has the iHeartRadio API changed?)")

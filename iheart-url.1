@@ -43,6 +43,10 @@ indicated in their names.
 
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl c
+Disable TLS; all API requests will be done in cleartext, and only cleartext
+stream URLS will be returned. May prevent any valid stream URL from being
+returned, in the event that the station has only TLS streams.
 .It Fl h
 Display a help message. Meaningless for wrapper scripts.
 .It Fl i

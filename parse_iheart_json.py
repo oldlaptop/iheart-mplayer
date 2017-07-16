@@ -7,7 +7,7 @@ import json
 class autodetectError (ValueError):
 	pass
 
-def station_search (search_keywords):
+def station_search (search_keywords, tls = True):
 	''' Returns a dict containing iHeartRadio search results for search_keyword
 	
 	search_keyword is a string (radio call letters, for instance -
@@ -47,11 +47,11 @@ def station_search (search_keywords):
 	# this program uses.
 
 	# Base URL for our API request
-	iheart_base_url = 'http://api.iheart.com/api/v1/catalog/searchAll?'
+	iheart_base_url = '%s://api.iheart.com/api/v1/catalog/searchAll?'
 
 	paramaters = urllib.parse.urlencode ({ 'keywords':search_keywords })
 
-	response = urllib.request.urlopen (iheart_base_url + paramaters)
+	response = urllib.request.urlopen ((iheart_base_url % ("https" if tls else "http")) + paramaters)
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
@@ -64,7 +64,7 @@ def station_search (search_keywords):
 	else:
 		return results
 
-def station_info (station_id):
+def station_info (station_id, tls = True):
 	''' Returns a dict containing all available information about station_id
 
 	station_id is a five-digit number assigned to an iHeartRadio station.
@@ -83,9 +83,9 @@ def station_info (station_id):
 	# Deep-packet analysis of official iHeartRadio apps remains to be done.
 
 	# The base URL for our API request (%s is for string substitution)
-	iheart_base_url = "http://api.iheart.com/api/v2/content/liveStations/%s"
+	iheart_base_url = "%s://api.iheart.com/api/v2/content/liveStations/%s"
 
-	response = urllib.request.urlopen (iheart_base_url % station_id)
+	response = urllib.request.urlopen (iheart_base_url % (("https" if tls else "http"), station_id))
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
