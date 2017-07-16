@@ -53,12 +53,17 @@ def print_url (station_id):
 	try:
 		station_url = parse_iheart_json.get_station_url (station)
 	except KeyError as inst:
-		logging.error ("stream not found for this station!")
-		logging.debug (inst)
-		logging.debug ("full dictionary dump:")
-		logging.debug (station)
-		print (BAD_STATION)
-		return
+		if (str (inst) == 'None'):
+			logging.error ("no valid stream for this station (if tls is off, try turning it on)")
+			print (BAD_STATION)
+			return
+		else:
+			logging.info ("an unknown stream type is present, please run with -v and submit a github issue")
+			logging.info ("KeyError instance: %s", inst)
+			logging.debug ("full dictionary dump:")
+			logging.debug (station)
+			print (BAD_STATION)
+			return
 
 	print (station_url)
 

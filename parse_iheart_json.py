@@ -149,17 +149,40 @@ def depls (pls_url):
 		return pls_url
 
 
-def get_station_url (station):
+def get_station_url (station, tls = True):
 	'''Takes a station dictionary and returns a URL.
 	'''
 
-	# Some stations (StreamTheWorld/Cumulus) provide URLs to a PLS playlist,
-	# rather than a direct HTTP/RTMP URL. Not all media players (notably
-	# mplayer) can process this directly, so we simply pull the first entry
-	# out of it and return that.
+	def streamcmp (x, y):
+		'''By analogy with C strcmp(), this returns >0 if x is more preferred
+		than y, >0 if it is less preferred, or 0 if x and y are equal.
+	'''
+		# We prefer shoutcast over pls over rtmp (and we prefer no
+		# stream at all over stw_stream), and unless otherwise specified
+		# we prefer tls ("secure_") variants. Note that we will also
+		# never pick an https stream if told not to, even if that means
+		# picking no valid stream.
+		order = { 'secure_shoutcast_stream': (3.1 if tls else -1),
+			  'shoutcast_stream': 3,
+			  'secure_pls_stream': (2.1 if tls else -1),
+	                  'pls_stream': 2,
+	                  'secure_hls_stream': (2.1 if tls else -1),
+	                  'hls_stream': 2,
+	                  'secure_rtmp_stream': (1.1 if tls else -1),
+	                  'rtmp_stream': 1,
+	                  None: 0,
+	                  'stw_stream': -1 }
+		
+		if order[x] > order[y]:
+			return 1
+		elif order[x] == order[y]: # should never happen
+			return 0
+		elif order[x] < order[y]:
+			return -1
 	
-	# TODO: reimplement station detection
-	if ((station['streams']['pls_stream'])[-3:] == "pls"):
-		return depls (station['streams']['pls_stream'])
-	#else:
-	#	return station['streams'][0]
+	preferred_stream = None
+	for stream in station['streams'].keys ():
+		if (streamcmp (stream, preferred_stream) > 0):
+			preferred_stream = stream
+
+	return (station['streams'][preferred_stream])
