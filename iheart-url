@@ -13,11 +13,11 @@ import time
 BAD_STATION = "no://station/found"
 
 def dump_station_details (station, dumpfunc = print):
-	dumpfunc ("station name:", station['streams'][0]['name'])
-	dumpfunc ("call letters:", station['streams'][0]['call_letters'])
-	dumpfunc ("location:", station['streams'][0]['city'] + ",", station['streams'][0]['state'] + ",", station['streams'][0]['country'])
-	dumpfunc ("description:", station['streams'][0]['description'])
-	dumpfunc ("broadcast format:", station['streams'][0]['format'])
+	dumpfunc ("station name: %s", station['name'])
+	dumpfunc ("call letters: %s", station['callLetters'])
+	dumpfunc ("location: %s", station['markets'][0]['city'] + ", " + station['markets'][0]['stateAbbreviation'] + ", " + station['markets'][0]['country'])
+	dumpfunc ("description: %s", station['description'])
+	dumpfunc ("broadcast format: %s", station['format'])
 
 def print_url (station_id):
 	station = None
@@ -52,8 +52,9 @@ def print_url (station_id):
 
 	try:
 		station_url = parse_iheart_json.get_station_url (station)
-	except KeyError:
+	except KeyError as inst:
 		logging.error ("stream not found for this station!")
+		logging.debug (inst)
 		logging.debug ("full dictionary dump:")
 		logging.debug (station)
 		print (BAD_STATION)

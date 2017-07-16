@@ -100,15 +100,17 @@ def station_info (station_id):
 	# http://proxy.iheart.com/streams_list_by_ids/?stream_ids=STATION_ID_NUMBER&apikey=null
 
 	# The base URL for our API request (%s is for string substitution)
-	iheart_base_url = 'http://proxy.iheart.com/streams_list_by_ids/?stream_ids=%s&apikey=null'
+	iheart_base_url = "http://api.iheart.com/api/v2/content/liveStations/%s"
 
 	response = urllib.request.urlopen (iheart_base_url % station_id)
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
-	assert (response.getheader ('Content-Type') == 'application/json')
+	(response.getheader ('Content-Type') == 'application/json;charset=UTF-8')
 
-	station = json.loads (response.read ().decode('utf-8'))
+	# TODO: investigate this new "hits" structure, perhaps searching and
+	#       stream-fetching can be unified
+	station = json.loads (response.read ().decode('utf-8'))['hits'][0]
 
 	if (not station['streams']):
 		raise RuntimeError("station streams list empty")
@@ -155,7 +157,9 @@ def get_station_url (station):
 	# rather than a direct HTTP/RTMP URL. Not all media players (notably
 	# mplayer) can process this directly, so we simply pull the first entry
 	# out of it and return that.
-	if ((station['streams'][0]['url'])[-3:] == "pls"):
-		return depls (station['streams'][0]['url'])
-	else:
-		return station['streams'][0]['url']
+	
+	# TODO: reimplement station detection
+	if ((station['streams']['pls_stream'])[-3:] == "pls"):
+		return depls (station['streams']['pls_stream'])
+	#else:
+	#	return station['streams'][0]
