@@ -102,7 +102,13 @@ $ iheart-mpv -l "Classic rock"
 .Sh CAVEATS
 While most media players capable of handling network streams will be able to use
 these URLs, the lack of public documentation concerning iHeartRadio's API
-precludes any guarantees about the content provided.
+precludes any guarantees about the content provided. Also because of the lack of
+documentation, much of this tool's functionality relies on information gained
+from deep-packet inspection of official iHeartRadio apps' traffic and on trial
+and error. The iHeartRadio API has been known to change on occasion and break 
+iheart-url's functionality. Technical documentation derived from this tool's
+development may be found in its source code and in the 'iheart-url' file in the
+source distribution.
 .Sh BUGS
 .Nm iheart-mplayer,
 .Nm iheart-mpv,
