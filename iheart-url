@@ -13,11 +13,11 @@ import time
 BAD_STATION = "no://station/found"
 
 def dump_station_details (station, dumpfunc = print):
-	dumpfunc ("station name: %s", station['name'])
-	dumpfunc ("call letters: %s", station['callLetters'])
-	dumpfunc ("location: %s", station['markets'][0]['city'] + ", " + station['markets'][0]['stateAbbreviation'] + ", " + station['markets'][0]['country'])
-	dumpfunc ("description: %s", station['description'])
-	dumpfunc ("broadcast format: %s", station['format'])
+	dumpfunc ("station name: %s" % station['name'])
+	dumpfunc ("call letters: %s" % station['callLetters'])
+	dumpfunc ("location: %s" % station['markets'][0]['city'] + ", " + station['markets'][0]['stateAbbreviation'] + ", " + station['markets'][0]['country'])
+	dumpfunc ("description: %s" % station['description'])
+	dumpfunc ("broadcast format: %s" % station['format'])
 
 def print_url (station_id):
 	station = None
