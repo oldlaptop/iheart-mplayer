@@ -28,6 +28,9 @@ of this is copied from comments in the source code, referenced by file.
 # (used by the Roku channel):
 #
 # http://proxy.iheart.com/streams_list_by_ids/?stream_ids=STATION_ID_NUMBER&apikey=null
+# AGAIN, in early 2017 the above API broke; the new URL comes from
+# Nathan Rajlich's node.js library (https://github.com/TooTallNate/iheart).
+# Deep-packet analysis of official iHeartRadio apps remains to be done.
 
 (by happy coincidence, here's the block comment for station_search())
 
@@ -57,8 +60,10 @@ of this is copied from comments in the source code, referenced by file.
 (in the following, note that the 'station dictionary' is generated directly
 from iheart's JSON by the standard json module)
 
-(THE FOLLOWING COMMENT BLOCK IS OF HISTORICAL INTEREST ONLY; THE API
-HAS CHANGED INCOMPATIBLY)
+(The following comment block refers to some obsolete data structures, but the
+stream types it refers to are once again present as of early 2017. Note that
+in early 2017 there are secure_ variants of several non-rtmp stream types, that
+simply refer to an https:// URL rather than an http:// URL.)
 
 # There are two keys within the station dictionary which contain dicts
 # of stream URLs. The first is 'stream_urls', which seems to always have

@@ -73,31 +73,14 @@ def station_info (station_id):
 	file.
 	'''
 
-	# The iheartradio API is not publicly documented, to my knowledge. At 
-	# the time of writing, one can submit a GET request to a URL of the
-	# following form (where STATION_ID_NUMBER is a five-digit number):
+	# The iheartradio API is not publicly documented, to my knowledge.
+	# There have been several historical versions of this function using
+	# obsolete APIs, their descriptions may be found in the 'iheart-api'
+	# document in the source distribution.
 	#
-	# http://iheart.com/a/live/station/STATION_ID_NUMBER/stream/
-	#
-	# The response will be UTF-8 encoded JSON describing some vital
-	# information about the station (if it exists), such as name, market,
-	# genre, and links to various live streams of its content (often RTMP or
-	# HTTP, but usually (never?) both). Valid station ID numbers can
-	# currently be obtained by searching for stations on the
-	# http://www.iheart.com website - for example, in the following URL, the
-	# station ID number is 1165:
-	#
-	# http://www.iheart.com/live/WOOD-Radio-1069-FM-1300AM-1165/
-	#
-	# See also the docstring and block comment for station_search().
-	#
-	# However, in late 2014, iheart altered this particular API structure.
-	# It now contains far less information than it used to, and is not used
-	# here anymore. Deep-packet analysis of various official iHeartRadio
-	# apps is still underway, for now the following URL seems to work
-	# (used by the Roku channel):
-	#
-	# http://proxy.iheart.com/streams_list_by_ids/?stream_ids=STATION_ID_NUMBER&apikey=null
+	# AGAIN, in early 2017 the iheart API broke; the new URL comes from
+	# Nathan Rajlich's node.js library (https://github.com/TooTallNate/iheart).
+	# Deep-packet analysis of official iHeartRadio apps remains to be done.
 
 	# The base URL for our API request (%s is for string substitution)
 	iheart_base_url = "http://api.iheart.com/api/v2/content/liveStations/%s"
