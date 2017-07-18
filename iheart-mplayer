@@ -7,4 +7,13 @@ IHEART_URL=${IHEART_URL:-"./iheart-url"}
 # a long delay before it realizes there isn't one. We correct this behavior.
 MPLAYER_OPTS="$MPLAYER_OPTS -novideo"
 
-mplayer $MPLAYER_OPTS "$("$IHEART_URL" "$@")"
+case "$0" in
+	*iheart-vlc)
+		vlc $VLCOPTS "$("$IHEART_URL" "$@")";;
+
+	*iheart-mpv)
+		mpv $MPV_OPTS "$("$IHEART_URL" "$@")";;
+
+	*)
+		mplayer $MPLAYER_OPTS "$("$IHEART_URL" "$@")";;
+esac

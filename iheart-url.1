@@ -34,12 +34,14 @@ and the command substitution syntax in most shells, like so:
 $ mplayer -novideo "$(iheart-url [station_id])"
 .Ed
 
-.Nm iheart-mplayer,
-.Nm iheart-mpv,
-and
-.Nm iheart-vlc
-are trivial POSIX sh wrapper scripts that do precisely that for the players
-indicated in their names.
+.Nm iheart-mplayer
+is a trivial POSIX sh wrapper scripts that does precisely that for the
+.Nm mplayer
+media player, or for
+.Nm mpv
+or
+.Nm vlc
+if it is called by the corresponding names.
 
 The options are as follows:
 .Bl -tag -width Ds

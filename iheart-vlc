@@ -1,6 +1,1 @@
-#! /bin/sh
-set -f
-
-IHEART_URL=${IHEART_URL:-"./iheart-url"}
-
-vlc $VLCOPTS "$("$IHEART_URL" "$@")"
+iheart-mplayer

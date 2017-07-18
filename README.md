@@ -35,12 +35,14 @@ and the command substitution syntax in most shells, like so:
 
 	$ mplayer -novideo "$(iheart-url [station_id])"
 
-**iheart-mplayer,**
-**iheart-mpv,**
-and
-**iheart-vlc**
-are trivial POSIX sh wrapper scripts that do precisely that for the players
-indicated in their names.
+**iheart-mplayer**
+is a trivial POSIX sh wrapper scripts that does precisely that for the
+**mplayer**
+media player, or for
+**mpv**
+or
+**vlc**
+if it is called by the corresponding names.
 
 The options are as follows:
 
@@ -147,4 +149,4 @@ stations.
 Up-to-date information on any issues can be found on the Github issue tracker:
 https://github.com/oldlaptop/iheart-mplayer/issues
 
-OpenBSD 6.1 - July 16, 2017
+OpenBSD 6.1 - July 17, 2017
