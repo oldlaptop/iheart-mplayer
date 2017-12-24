@@ -154,6 +154,7 @@ def get_station_url (station, tls = True):
 	                  'secure_rtmp_stream': (1.1 if tls else -1),
 	                  'rtmp_stream': 1,
 	                  None: 0,
+	                  'flv_stream': 0.1, # one station observed with this stream type (github issue #6), but no URL for it
 	                  'stw_stream': -1 }
 		
 		if order[x] > order[y]:
@@ -165,7 +166,8 @@ def get_station_url (station, tls = True):
 	
 	preferred_stream = None
 	for stream in station['streams'].keys ():
-		if (streamcmp (stream, preferred_stream) > 0):
+		                                                # stations with blank URLs have been observed
+		if (streamcmp (stream, preferred_stream) > 0) and len(station['streams'][stream]) > 0:
 			preferred_stream = stream
 
 	return (station['streams'][preferred_stream])
