@@ -46,7 +46,7 @@ def print_url (station_id):
 		try:
 			dump_station_details (station, dumpfunc = logging.debug)
 		except KeyError:
-			logging.warning ("a field is missing")
+			logging.warning ("a field is missing; please run with -v and submit a github issue")
 			logging.debug ("full dictionary dump:")
 			logging.debug (station)
 
@@ -155,7 +155,7 @@ if (__name__ == '__main__'):
 				station = parse_iheart_json.station_info (station_id, tls)
 				dump_station_details (station)
 			except KeyError:
-				logging.error ("information field not found (has the iHeartRadio API changed?)")
+				logging.error ("information field not found (has the iHeartRadio API changed?) please run with -v and submit a github issue")
 				logging.debug ("full dictionary dump:")
 				logging.debug (station)
 		else:
