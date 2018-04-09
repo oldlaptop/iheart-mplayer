@@ -154,6 +154,11 @@ def get_station_url (station, tls = True):
 	                  'secure_rtmp_stream': (1.1 if tls else -1),
 	                  'rtmp_stream': 1,
 	                  None: 0,
+	                  # appears to be a normal HLS stream fed through an
+	                  # (HTTPS) redirector hosted by iHeart; since it seems
+	                  # to occur alongside non-redirected HLS streams,
+	                  # prefer those.
+	                  'pivot_hls_stream': (0.2 if tls else -1),
 	                  'flv_stream': 0.1, # one station observed with this stream type (github issue #6), but no URL for it
 	                  'stw_stream': -1 }
 		
