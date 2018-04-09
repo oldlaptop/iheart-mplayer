@@ -8,7 +8,7 @@ class autodetectError (ValueError):
 	pass
 
 def station_search (search_keywords, tls = True):
-	''' Returns a dict containing iHeartRadio search results for search_keyword
+	'''Returns a dict containing iHeartRadio search results for search_keyword
 	
 	search_keyword is a string (radio call letters, for instance -
 	URL-illegal characters will be escaped) which will be submitted to
@@ -79,8 +79,9 @@ def station_info (station_id, tls = True):
 	# document in the source distribution.
 	#
 	# AGAIN, in early 2017 the iheart API broke; the new URL comes from
-	# Nathan Rajlich's node.js library (https://github.com/TooTallNate/iheart).
-	# Deep-packet analysis of official iHeartRadio apps remains to be done.
+	# Nathan Rajlich's node.js library
+	# (https://github.com/TooTallNate/iheart). Deep-packet analysis of
+	# official iHeartRadio apps remains to be done.
 
 	# The base URL for our API request (%s is for string substitution)
 	iheart_base_url = "%s://api.iheart.com/api/v2/content/liveStations/%s"
@@ -137,9 +138,10 @@ def get_station_url (station, tls = True):
 	'''
 
 	def streamcmp (x, y):
-		'''By analogy with C strcmp(), this returns >0 if x is more preferred
-		than y, >0 if it is less preferred, or 0 if x and y are equal.
-	'''
+		'''By analogy with C strcmp(), this returns >0 if x is more
+		preferred than y, >0 if it is less preferred, or 0 if x and y
+		are equal.
+		'''
 		# We prefer shoutcast over pls over rtmp (and we prefer no
 		# stream at all over stw_stream), and unless otherwise specified
 		# we prefer tls ("secure_") variants. Note that we will also
@@ -159,7 +161,9 @@ def get_station_url (station, tls = True):
 	                  # to occur alongside non-redirected HLS streams,
 	                  # prefer those.
 	                  'pivot_hls_stream': (0.2 if tls else -1),
-	                  'flv_stream': 0.1, # one station observed with this stream type (github issue #6), but no URL for it
+	                   # one station observed with this stream type (github
+	                   # issue #6), but no URL for it
+	                  'flv_stream': 0.1,
 	                  'stw_stream': -1 }
 		
 		if order[x] > order[y]:
@@ -171,7 +175,7 @@ def get_station_url (station, tls = True):
 	
 	preferred_stream = None
 	for stream in station['streams'].keys ():
-		                                                # stations with blank URLs have been observed
+		                                            # stations with blank URLs have been observed
 		if (streamcmp (stream, preferred_stream) > 0) and len(station['streams'][stream]) > 0:
 			preferred_stream = stream
 

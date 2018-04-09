@@ -132,7 +132,8 @@ if (__name__ == '__main__'):
 			else:
 				print (station['name'], '\t', station['description'], "id:" + str(station['id']))
 	else:
-		# Determine station_id, either by the lucky search or from the commandline
+		# Determine station_id, either by the lucky search or from the
+		# commandline
 		if (args.lucky):
 			results = parse_iheart_json.station_search (args.lucky, tls)
 
