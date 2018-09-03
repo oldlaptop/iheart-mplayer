@@ -148,8 +148,8 @@ def get_station_url (station, tls = True):
 		# never pick an https stream if told not to, even if that means
 		# picking no valid stream.
 		order = { 'secure_shoutcast_stream': (3.1 if tls else -1),
-			  'shoutcast_stream': 3,
-			  'secure_pls_stream': (2.1 if tls else -1),
+		          'shoutcast_stream': 3,
+		          'secure_pls_stream': (2.1 if tls else -1),
 	                  'pls_stream': 2,
 	                  'secure_hls_stream': (2.1 if tls else -1),
 	                  'hls_stream': 2,
@@ -161,8 +161,8 @@ def get_station_url (station, tls = True):
 	                  # to occur alongside non-redirected HLS streams,
 	                  # prefer those.
 	                  'pivot_hls_stream': (0.2 if tls else -1),
-	                   # one station observed with this stream type (github
-	                   # issue #6), but no URL for it
+	                  # one station observed with this stream type (github
+	                  # issue #6), but no URL for it
 	                  'flv_stream': 0.1,
 	                  'stw_stream': -1 }
 		

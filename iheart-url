@@ -95,7 +95,7 @@ if (__name__ == '__main__'):
 		nargs='?',
 		type=int,
 		help="The (five-digit?) ID number of the station",
-		)	
+		)
 	action.add_argument (
 		'-s', '--search',
 		metavar='TERMS',
