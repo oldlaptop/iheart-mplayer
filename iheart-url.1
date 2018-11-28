@@ -7,23 +7,18 @@
 .Nd print the audio stream URL for an iheartradio station
 .Sh SYNOPSIS
 .Nm iheart-url
-.Op Fl h
-.Op Fl i
+.Op Fl chiv
 .Op Fl l Ar terms
 .Op Fl s Ar terms
-.Op Fl v
 .Op station_id
 .Nm iheart-mplayer
 .Op Fl l Ar terms
-.Op Fl s Ar terms
 .Op station_id
 .Nm iheart-mpv
 .Op Fl l Ar terms
-.Op Fl s Ar terms
 .Op station_id
 .Nm iheart-vlc
 .Op Fl l Ar terms
-.Op Fl s Ar terms
 .Op station_id
 .Sh DESCRIPTION
 .Nm
@@ -65,8 +60,6 @@ result. Meaningless for wrapper scripts.
 .It Fl v
 Increase verbosity level, may be specified multiple times for more verbosity.
 Useful in conjunction with
-.Fl i
-and
 .Fl s.
 Meaningless for wrapper scripts.
 .It station_id
@@ -117,7 +110,8 @@ source distribution.
 and
 .Nm iheart-vlc
 naively pass all their arguments to iheart-url, and all of iheart-url's stdio
-output to the player. Players do not particularly like the output of
+output as an argument to the player. Players do not particularly like the output
+of
 .Fl h,
 .Fl i,
 or
