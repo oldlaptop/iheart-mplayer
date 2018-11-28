@@ -21,24 +21,16 @@ def dump_station_details (station, dumpfunc = print):
 
 def print_url (station_id):
 	station = None
-	attempts = 0
 
-	while (attempts < 3):
-		try:
-			station = parse_iheart_json.station_info (station_id, tls)
-			break
-		except urllib.error.HTTPError as inst:
-			# Attempt to compensate for random HTTP 500 errors
-			logging.warning ("http error from iheart server; retrying:")
-			logging.warning (inst)
-			attempts += 1
-			time.sleep (2);
-		except RuntimeError as inst:
-			logging.error (inst)
-			print (BAD_STATION)
-			return
-	else:
-		logging.error ("could not get station URL")
+	try:
+		station = parse_iheart_json.station_info (station_id, tls)
+	except urllib.error.HTTPError as inst:
+		logging.error ("http error from iheart servers:")
+		logging.error (inst)
+		print (BAD_STATION)
+		return
+	except RuntimeError as inst:
+		logging.error (inst)
 		print (BAD_STATION)
 		return
 
