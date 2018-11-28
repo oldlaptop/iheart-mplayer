@@ -7,23 +7,18 @@ IHEART-URL(1) - General Commands Manual
 # SYNOPSIS
 
 **iheart-url**
-\[**-h**]
-\[**-i**]
+\[**-chiv**]
 \[**-l**&nbsp;*terms*]
 \[**-s**&nbsp;*terms*]
-\[**-v**]
 \[station\_id]  
 **iheart-mplayer**
 \[**-l**&nbsp;*terms*]
-\[**-s**&nbsp;*terms*]
 \[station\_id]  
 **iheart-mpv**
 \[**-l**&nbsp;*terms*]
-\[**-s**&nbsp;*terms*]
 \[station\_id]  
 **iheart-vlc**
 \[**-l**&nbsp;*terms*]
-\[**-s**&nbsp;*terms*]
 \[station\_id]
 
 # DESCRIPTION
@@ -77,8 +72,6 @@ The options are as follows:
 
 > Increase verbosity level, may be specified multiple times for more verbosity.
 > Useful in conjunction with
-> **-i**
-> and
 > **-s.**
 > Meaningless for wrapper scripts.
 
@@ -136,7 +129,8 @@ source distribution.
 and
 **iheart-vlc**
 naively pass all their arguments to iheart-url, and all of iheart-url's stdio
-output to the player. Players do not particularly like the output of
+output as an argument to the player. Players do not particularly like the output
+of
 **-h,**
 **-i,**
 or
@@ -149,4 +143,4 @@ stations.
 Up-to-date information on any issues can be found on the Github issue tracker:
 https://github.com/oldlaptop/iheart-mplayer/issues
 
-OpenBSD 6.1 - July 17, 2017
+OpenBSD 6.4 - November 28, 2018
