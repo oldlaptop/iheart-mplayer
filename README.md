@@ -140,7 +140,12 @@ Multiple people have reported intermittent outages of the iHeartRadio API,
 during which it may return HTTP errors for iheart-url's requests for certain
 stations.
 
+Python may raise string encoding exceptions if the console does not support
+UTF-8. Setting
+`PYTHONIOENCODING`
+to something like ":namereplace" in the environment is recommended.
+
 Up-to-date information on any issues can be found on the Github issue tracker:
 https://github.com/oldlaptop/iheart-mplayer/issues
 
-OpenBSD 6.4 - November 28, 2018
+OpenBSD 6.4 - December 26, 2018
