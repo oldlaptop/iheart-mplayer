@@ -135,7 +135,7 @@ source code and in the 'iheart-api' file in the source distribution.
 **iheart-mpv**,
 and
 **iheart-vlc**
-naively pass all their arguments to iheart-url, and all of iheart-url's stdio
+naively pass all their arguments to iheart-url, and all of iheart-url's stdout
 output as an argument to the player.
 Players do not particularly like the output of
 **-h**,
