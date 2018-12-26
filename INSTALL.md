@@ -19,7 +19,7 @@ as follows:
    script while in the source directory, for example. You could accomplish this
    in an automated fashion with something like:
    ```
-   printf '/IHEART_URL/s/.\/iheart-url/$HOME\/bin\/iheart-url/\nw\nq' | ed iheart-mplayer
+   printf '/IHEART_URL/s/.\\/iheart-url/$HOME\\/bin\\/iheart-url/\nw\nq' | ed iheart-mplayer
    ```
    (Yes, I know sed -i would look cleaner, but sed -i is not standard and both
    printf and ed are. Think of the poor starving children using solaris, or
