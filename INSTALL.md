@@ -6,10 +6,10 @@ test under $HOME) is present. Users on Unixish systems can install under $HOME
 as follows:
 
  * Edit the iheart-mplayer wrapper script to change the line
-
 ```
 IHEART_URL=${IHEART_URL:-"./iheart-url"}
-``` so it points to the final location you'll be installing the executable
+```
+   so it points to the final location you'll be installing the executable
    scripts in. For $HOME/bin, you'll want:
 ```
 IHEART_URL=${IHEART_URL:-"$HOME/bin/iheart-url"}
