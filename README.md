@@ -25,8 +25,9 @@ IHEART-URL(1) - General Commands Manual
 
 **iheart-url**
 fetches the URL for an iHeartRadio station's audio stream from iHeartRadio's
-API servers and prints it to stdout. It is meant to be used with audio players
-and the command substitution syntax in most shells, like so:
+API servers and prints it to stdout.
+It is meant to be used with audio players and the command substitution syntax in
+most shells, like so:
 
 	$ mplayer -novideo "$(iheart-url [station_id])"
 
@@ -44,17 +45,20 @@ The options are as follows:
 **-c**
 
 > Disable TLS; all API requests will be done in cleartext, and only cleartext
-> stream URLS will be returned. May prevent any valid stream URL from being
-> returned, in the event that the station has only TLS streams.
+> stream URLS will be returned.
+> May prevent any valid stream URL from being returned, in the event that the
+> station has only TLS streams.
 
 **-h**
 
-> Display a help message. Meaningless for wrapper scripts.
+> Display a help message.
+> Meaningless for wrapper scripts.
 
 **-i**
 
 > Instead of printing the URL for a station, output some human-readable info about
-> it. Meaningless for wrapper scripts.
+> it.
+> Meaningless for wrapper scripts.
 
 **-l** *terms*
 
@@ -66,21 +70,23 @@ The options are as follows:
 **-s** *terms*
 
 > Run a search for terms, outputting vital information like station ID for each
-> result. Meaningless for wrapper scripts.
+> result.
+> Meaningless for wrapper scripts.
 
 **-v**
 
 > Increase verbosity level, may be specified multiple times for more verbosity.
 > Useful in conjunction with
-> **-s.**
+> **-s**.
 > Meaningless for wrapper scripts.
 
 station\_id
 
-> Print the URL for this numerical station ID. Station IDs can be obtained with
+> Print the URL for this numerical station ID.
+> Station IDs can be obtained with
 > **-i**
 > or
-> **-s.**
+> **-s**.
 
 # ENVIRONMENT
 
@@ -114,34 +120,36 @@ in mpv
 
 While most media players capable of handling network streams will be able to use
 these URLs, the lack of public documentation concerning iHeartRadio's API
-precludes any guarantees about the content provided. Also because of the lack of
-documentation, much of this tool's functionality relies on information gained
-from deep-packet inspection of official iHeartRadio apps' traffic and on trial
-and error. The iHeartRadio API has been known to change on occasion and break
-iheart-url's functionality. Technical documentation derived from this tool's
-development may be found in its source code and in the 'iheart-api' file in the
-source distribution.
+precludes any guarantees about the content provided.
+Also because of the lack of documentation, much of this tool's functionality
+relies on information gained from deep-packet inspection of official iHeartRadio
+apps' traffic and on trial and error.
+The iHeartRadio API has been known to change on occasion and break iheart-url's
+functionality.
+Technical documentation derived from this tool's development may be found in its
+source code and in the 'iheart-api' file in the source distribution.
 
 # BUGS
 
-**iheart-mplayer,**
-**iheart-mpv,**
+**iheart-mplayer**,
+**iheart-mpv**,
 and
 **iheart-vlc**
 naively pass all their arguments to iheart-url, and all of iheart-url's stdio
-output as an argument to the player. Players do not particularly like the output
-of
-**-h,**
-**-i,**
+output as an argument to the player.
+Players do not particularly like the output of
+**-h**,
+**-i**,
 or
-**-s.**
+**-s**.
 
 Multiple people have reported intermittent outages of the iHeartRadio API,
 during which it may return HTTP errors for iheart-url's requests for certain
 stations.
 
 Python may raise string encoding exceptions if the console does not support
-UTF-8. Setting
+UTF-8.
+Setting
 `PYTHONIOENCODING`
 to something like ":namereplace" in the environment is recommended.
 
