@@ -1,0 +1,2 @@
+#! /bin/sh
+mandoc -T markdown -W base iheart-url.1 > README.md
