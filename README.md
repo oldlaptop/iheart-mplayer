@@ -12,12 +12,15 @@ IHEART-URL(1) - General Commands Manual
 \[**-s**&nbsp;*terms*]
 \[station\_id]  
 **iheart-mplayer**
+\[**-c**]
 \[**-l**&nbsp;*terms*]
 \[station\_id]  
 **iheart-mpv**
+\[**-c**]
 \[**-l**&nbsp;*terms*]
 \[station\_id]  
 **iheart-vlc**
+\[**-c**]
 \[**-l**&nbsp;*terms*]
 \[station\_id]
 
@@ -156,4 +159,4 @@ to something like ":namereplace" in the environment is recommended.
 Up-to-date information on any issues can be found on the Github issue tracker:
 https://github.com/oldlaptop/iheart-mplayer/issues
 
-OpenBSD 6.4 - December 26, 2018
+OpenBSD 6.4 - March 1, 2019
