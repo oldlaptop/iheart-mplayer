@@ -55,7 +55,7 @@ def station_search (search_keywords, tls = True):
 
 	# We assume we're dealing with UTF-8 encoded JSON, if we aren't the API
 	# has probably changed in ways we can't deal with.
-	assert (response.getheader ('Content-Type') == 'application/json;charset=UTF-8')
+	assert (response.getheader ('Content-Type').casefold () == 'application/json;charset=UTF-8'.casefold ())
 
 	results = json.loads (response.read ().decode ("utf-8"))
 
